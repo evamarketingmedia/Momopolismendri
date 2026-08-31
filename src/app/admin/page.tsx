@@ -1,0 +1,325 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { getAdminRole } from "@/lib/admin-auth";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import { getSiteImages } from "@/lib/site-images-store";
+import { getGalleryImages } from "@/lib/gallery-store";
+import { withSize } from "@/data/gallery";
+import type { GalleryCategory } from "@/data/gallery";
+import {
+  updateSiteImage,
+  addGalleryImage,
+  updateGalleryImage,
+  deleteGalleryImage,
+  updatePartyConfig,
+} from "./actions";
+import { getPartyConfig } from "@/lib/party-config";
+import PartyChoicesEditor from "@/components/admin/PartyChoicesEditor";
+
+export const metadata: Metadata = {
+  title: "Dashboard · Momopolis Admin",
+  robots: { index: false, follow: false },
+};
+
+const SITE_IMAGE_LABELS: Record<string, string> = {
+  homePark: "Home — Il parco (scivolo)",
+  homeBar: "Home — Il bar",
+  homeParties: "Home — Compleanni & eventi",
+  homePromotions: "Home — Promozioni",
+  heroSlide: "Home — Hero, foto 1 (scivolo)",
+  heroJump: "Home — Hero, foto 2 (salto)",
+  aboutStory: "Chi siamo — La nostra storia",
+  aboutTeam: "Chi siamo — Il team",
+  zonesA: "Home — Collage parco giochi 1",
+  zonesB: "Home — Collage parco giochi 2",
+  zonesC: "Home — Collage parco giochi 3",
+  eventBirthday: "Eventi — Feste di compleanno",
+  eventClass: "Eventi — Feste di classe",
+  eventCorporate: "Eventi — Eventi aziendali",
+  eventThemed: "Eventi — Serate a tema",
+};
+
+const CATEGORY_LABELS: Record<GalleryCategory, string> = {
+  playground: "Parco giochi",
+  parties: "Feste",
+  events: "Eventi speciali",
+};
+
+function formatAdminDate(value:string) {
+  const [year,month,day]=value.split("-");
+  return `${day}.${month}.${year}`;
+}
+
+export default async function AdminDashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ saved?: string }>;
+}) {
+  const role = await getAdminRole();
+  if (!role) redirect("/admin/login");
+  if (role !== "owner") redirect("/admin/client");
+
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="min-h-screen bg-momo-cream p-8">
+        <div className="mx-auto max-w-lg rounded-2xl border border-black/10 bg-white p-8 text-center">
+          <h1 className="font-display text-xl font-extrabold text-momo-black">
+            Supabase non configurato
+          </h1>
+          <p className="mt-3 text-momo-black/70">
+            Imposta <code className="rounded bg-black/5 px-1.5 py-0.5">SUPABASE_URL</code> e{" "}
+            <code className="rounded bg-black/5 px-1.5 py-0.5">SUPABASE_SERVICE_ROLE_KEY</code>{" "}
+            in <code className="rounded bg-black/5 px-1.5 py-0.5">.env.local</code> per gestire
+            le foto da qui.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const { saved } = await searchParams;
+  const [siteImages, galleryImages, partyConfig] = await Promise.all([
+    getSiteImages(),
+    getGalleryImages(),
+    getPartyConfig(),
+  ]);
+
+  const byCategory = (cat: GalleryCategory) =>
+    galleryImages.filter((img) => img.category === cat);
+
+  return (
+    <div className="min-h-screen bg-momo-cream pb-24">
+      <div className="mx-auto max-w-5xl px-6 py-10">
+        {saved && (
+          <div className="mb-8 rounded-xl bg-momo-green-700/10 px-4 py-3 text-sm font-bold text-momo-green-700">
+            Modifica salvata.
+          </div>
+        )}
+
+        <section className="mb-14">
+          <h2 className="font-display text-2xl font-extrabold text-momo-black">
+            Preventivatore feste
+          </h2>
+          <p className="mt-1 text-sm text-momo-black/60">
+            Modifica prezzi e scelte mostrate nel percorso “Prenota la tua festa”.
+            Ogni elemento usa i campi id, label, description e price.
+          </p>
+          <form action={updatePartyConfig} className="mt-6 space-y-6 rounded-2xl border border-black/10 bg-white p-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              <label className="text-sm font-bold">Prezzo base feriale (CHF)
+                <input name="baseWeekdayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.baseWeekdayPrice} className="momo-input mt-1" />
+              </label>
+              <label className="text-sm font-bold">Prezzo base festività (CHF)
+                <input name="baseHolidayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.baseHolidayPrice} className="momo-input mt-1" />
+              </label>
+              <label className="text-sm font-bold">Supplemento bambino (CHF)
+                <input name="baseChildPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.baseChildPrice} className="momo-input mt-1" />
+              </label>
+              <label className="text-sm font-bold">Quota adulto (CHF)
+                <input name="adultPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.adultPrice} className="momo-input mt-1" />
+              </label>
+              <label className="text-sm font-bold">Minimo bambini
+                <input name="minimumChildren" type="number" min="0" required defaultValue={partyConfig.minimumChildren} className="momo-input mt-1" />
+              </label>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              <label className="text-sm font-bold">Anticipo minimo (giorni)<input name="minimumAdvanceDays" type="number" min="0" required defaultValue={partyConfig.minimumAdvanceDays} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Prenotabile dal<input name="bookingStartDate" type="date" required defaultValue={partyConfig.bookingStartDate} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Prenotabile fino al (facoltativo)<input name="bookingEndDate" type="date" defaultValue={partyConfig.bookingEndDate} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Max prenotazioni feriali<input name="weekdayMaxBookings" type="number" min="1" required defaultValue={partyConfig.weekdayMaxBookings} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Max weekend/festivi<input name="weekendMaxBookings" type="number" min="1" required defaultValue={partyConfig.weekendMaxBookings} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Giorni chiusi (0=dom, 1=lun...)<input name="closedWeekdays" type="text" required defaultValue={partyConfig.closedWeekdays.join(",")} className="momo-input mt-1" /></label>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <label className="text-sm font-bold">Mattina feriale<input name="morningWeekdayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.morningWeekdayPrice} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Mattina weekend/festivi<input name="morningHolidayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.morningHolidayPrice} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Pomeriggio feriale<input name="afternoonWeekdayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.afternoonWeekdayPrice} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Pomeriggio weekend/festivi<input name="afternoonHolidayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.afternoonHolidayPrice} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Giornata feriale<input name="fullDayWeekdayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.fullDayWeekdayPrice} className="momo-input mt-1" /></label>
+              <label className="text-sm font-bold">Giornata weekend/festivi<input name="fullDayHolidayPrice" type="number" min="0" step="0.5" required defaultValue={partyConfig.fullDayHolidayPrice} className="momo-input mt-1" /></label>
+            </div>
+            <label className="block text-sm font-bold">
+              Date festive aggiuntive
+              <input
+                name="holidayDates"
+                type="text"
+                defaultValue={partyConfig.holidayDates.map(formatAdminDate).join(", ")}
+                placeholder="01.10.2026, 25.12.2026"
+                className="momo-input mt-1"
+              />
+              <span className="mt-1 block text-xs font-normal text-momo-black/50">
+                Sabato e domenica usano automaticamente il prezzo festività. Inserisci qui le altre date in formato GG.MM.AAAA.
+              </span>
+            </label>
+            {([
+              ["packages", "Pacchetti", partyConfig.packages],
+              ["cakes", "Torte", partyConfig.cakes],
+              ["extras", "Extra", partyConfig.extras],
+              ["setups", "Allestimenti", partyConfig.setups],
+            ] as const).map(([name, label, value]) => <PartyChoicesEditor key={name} name={name} label={label} initial={value}/>) }
+            <button type="submit" className="rounded-full bg-momo-orange px-6 py-3 text-sm font-extrabold text-momo-black">
+              Salva preventivatore
+            </button>
+          </form>
+        </section>
+
+        {/* SITE IMAGES */}
+        <section>
+          <h2 className="font-display text-2xl font-extrabold text-momo-black">
+            Foto del sito
+          </h2>
+          <p className="mt-1 text-sm text-momo-black/60">
+            Le foto usate in home, chi siamo ed eventi. Le modifiche compaiono sul sito entro
+            pochi secondi.
+          </p>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Object.entries(SITE_IMAGE_LABELS).map(([key, label]) => (
+              <div
+                key={key}
+                className="overflow-hidden rounded-2xl border border-black/10 bg-white"
+              >
+                <div className="relative aspect-video w-full bg-black/5">
+                  <Image
+                    src={withSize(siteImages[key as keyof typeof siteImages], 400, 240)}
+                    alt=""
+                    fill
+                    sizes="300px"
+                    className="object-cover"
+                  />
+                </div>
+                <form action={updateSiteImage} className="space-y-2 p-4">
+                  <input type="hidden" name="key" value={key} />
+                  <p className="text-xs font-extrabold uppercase tracking-wide text-momo-black/50">
+                    {label}
+                  </p>
+                  <input
+                    type="url"
+                    name="url"
+                    defaultValue={siteImages[key as keyof typeof siteImages]}
+                    className="momo-input text-xs"
+                  />
+                  <label className="block text-xs font-bold text-momo-black/60">Oppure scegli una foto dal dispositivo
+                    <input type="file" name="file" accept="image/*" className="mt-1 block w-full text-xs" />
+                  </label>
+                  <button
+                    type="submit"
+                    className="w-full rounded-full bg-momo-black py-2 text-xs font-extrabold text-white hover:bg-momo-green-900"
+                  >
+                    Salva
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* GALLERY */}
+        <section className="mt-14">
+          <h2 className="font-display text-2xl font-extrabold text-momo-black">
+            Galleria
+          </h2>
+          <p className="mt-1 text-sm text-momo-black/60">
+            Foto mostrate nella pagina Galleria del sito, divise per categoria.
+          </p>
+
+          <div className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+            <h3 className="font-display text-sm font-extrabold uppercase tracking-wide text-momo-black/60">
+              Aggiungi una foto
+            </h3>
+            <form
+              action={addGalleryImage}
+              className="mt-3 grid gap-3 sm:grid-cols-[140px_1fr_100px_auto]"
+            >
+              <select name="category" required className="momo-input" defaultValue="playground">
+                <option value="playground">Parco giochi</option>
+                <option value="parties">Feste</option>
+                <option value="events">Eventi speciali</option>
+              </select>
+              <input
+                type="url"
+                name="url"
+                required
+                placeholder="https://..."
+                className="momo-input"
+              />
+              <input
+                type="number"
+                name="sort_order"
+                placeholder="Ordine"
+                defaultValue={galleryImages.length + 1}
+                className="momo-input"
+              />
+              <button
+                type="submit"
+                className="rounded-full bg-momo-orange px-5 py-2.5 text-sm font-extrabold text-momo-black hover:scale-105"
+              >
+                Aggiungi
+              </button>
+            </form>
+          </div>
+
+          {(["playground", "parties", "events"] as GalleryCategory[]).map((cat) => (
+            <div key={cat} className="mt-8">
+              <h3 className="font-display text-lg font-extrabold text-momo-black">
+                {CATEGORY_LABELS[cat]}{" "}
+                <span className="text-sm font-normal text-momo-black/40">
+                  ({byCategory(cat).length})
+                </span>
+              </h3>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {byCategory(cat).map((img) => (
+                  <div
+                    key={img.id}
+                    className="overflow-hidden rounded-2xl border border-black/10 bg-white"
+                  >
+                    <div className="relative aspect-square w-full bg-black/5">
+                      <Image
+                        src={withSize(img.url, 300, 300)}
+                        alt=""
+                        fill
+                        sizes="250px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="space-y-2 p-3">
+                      <form action={updateGalleryImage} className="flex gap-1.5">
+                        <input type="hidden" name="id" value={img.id} />
+                        <input
+                          type="url"
+                          name="url"
+                          required
+                          defaultValue={img.url}
+                          className="momo-input text-xs"
+                        />
+                        <button
+                          type="submit"
+                          className="shrink-0 rounded-full bg-momo-black px-3 text-xs font-extrabold text-white"
+                        >
+                          Salva
+                        </button>
+                      </form>
+                      <form action={deleteGalleryImage}>
+                        <input type="hidden" name="id" value={img.id} />
+                        <button
+                          type="submit"
+                          className="w-full rounded-full border border-red-200 py-1.5 text-xs font-extrabold text-red-600 hover:bg-red-50"
+                        >
+                          Elimina
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                ))}
+                {byCategory(cat).length === 0 && (
+                  <p className="text-sm text-momo-black/50">Nessuna foto in questa categoria.</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
+    </div>
+  );
+}

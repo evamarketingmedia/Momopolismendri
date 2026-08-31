@@ -108,7 +108,7 @@ const dict = {
     menuText: "La nostra carta di bibite, caffetteria, snack, pranzi e aperitivi è disponibile direttamente al bar.",
   },
   park: {
-    title: "Il Parco",
+    title: "Il parco",
     kicker: "Gioco, movimento e fantasia",
     intro: "Ampia area giochi al coperto con attrazioni per diverse fasce d’età. I più piccoli esplorano spazi morbidi e protetti, mentre i bambini più grandi trovano percorsi, giochi e attività pensati per stimolare movimento e socializzazione; per i momenti più tranquilli abbiamo dedicato un’area lettura.",
     gamesTitle: "I giochi",

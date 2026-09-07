@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Baby, Blocks, BookOpen, Castle, CircleDot, Gamepad2, Mountain, Zap } from "lucide-react";
 import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import OpeningHours from "@/components/OpeningHours";
+
+const gameIcons = [Castle, Mountain, Zap, CircleDot, Blocks, BookOpen, Baby, Gamepad2];
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -21,22 +23,20 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      <PageHero kicker={dict.park.kicker} title={dict.park.title} intro={dict.park.intro} titleClassName="font-logo-title text-momo-green-700" />
+      <PageHero title={dict.park.title} logoSrc="/momopolis/logo-parco.png" logoAlt={dict.park.title} />
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-2">
-            {["/momopolis/parco-1.webp", "/momopolis/parco-2.webp"].map((src, index) => (
-              <div key={src} className="relative aspect-[16/9] overflow-hidden rounded-3xl shadow-xl">
-                <Image src={src} alt={`Render del parco giochi Momòpolis, vista ${index + 1}`} fill priority={index === 0} sizes="(max-width: 1024px) 100vw, 600px" className="object-cover" />
-              </div>
-            ))}
+          <div className="mx-auto max-w-4xl whitespace-pre-line text-center text-lg leading-relaxed text-momo-black/75 sm:text-xl">
+            {dict.park.intro}
           </div>
           <h2 className="font-display mt-16 text-center text-4xl font-extrabold text-momo-black">{dict.park.gamesTitle}</h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {dict.park.games.map((game) => {
+            {dict.park.games.map((game, index) => {
+              const Icon = gameIcons[index];
               return (
                 <article key={game.title} className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm transition-transform hover:-translate-y-1">
-                  <h3 className="font-display text-xl font-extrabold text-momo-black">{game.title}</h3>
+                  <div className={`grid h-12 w-12 place-items-center rounded-2xl ${index % 2 ? "bg-momo-orange" : "bg-momo-green-neon"}`}><Icon size={24} /></div>
+                  <h3 className="font-display mt-4 text-xl font-extrabold text-momo-black">{game.title}</h3>
                   <p className="mt-2 leading-relaxed text-momo-black/70">{game.text}</p>
                 </article>
               );
@@ -54,11 +54,8 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
             </p>
           </div>
 
-          <div id="prezzi-orari" className="mx-auto mt-12 max-w-2xl scroll-mt-28"><OpeningHours locale={lang as Locale} /></div>
-
-          <div className="mt-16 rounded-[2rem] border border-black/10 bg-white p-5 shadow-sm sm:p-9">
+          <div id="prezzi-orari" className="mt-16 scroll-mt-28 rounded-[2rem] border border-black/10 bg-white p-5 shadow-sm sm:p-9">
             <p className="font-display text-sm font-extrabold uppercase tracking-[.18em] text-momo-orange">{isIt ? "Prezzi ingresso parco" : "Park admission prices"}</p>
-            <h2 className="font-display mt-2 text-3xl font-extrabold text-momo-black">{isIt ? "Un prezzo semplice per ogni famiglia" : "Simple prices for every family"}</h2>
             <div className="mt-7 grid gap-7 lg:grid-cols-2">
               <PriceTable title={isIt ? "Bambini" : "Children"} weekday={isIt ? "Settimana" : "Weekdays"} weekend={isIt ? "Weekend e festivi" : "Weekends & holidays"} rows={isIt ? [["0 – 1 anno","gratuito","gratuito"],["1 – 3 anni","CHF 8.–","CHF 10.–"],["3 – 12 anni","CHF 12.–","CHF 15.–"]] : [["0–1 year","free","free"],["1–3 years","CHF 8.–","CHF 10.–"],["3–12 years","CHF 12.–","CHF 15.–"]]} />
               <div className="space-y-7">
@@ -67,6 +64,8 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
               </div>
             </div>
           </div>
+
+          <div className="mx-auto mt-12 max-w-2xl"><OpeningHours locale={lang as Locale} /></div>
         </Container>
       </section>
     </>

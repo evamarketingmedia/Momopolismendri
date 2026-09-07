@@ -67,17 +67,8 @@ export default async function AboutPage({
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-            <Image
-              src="/momopolis/sala.webp"
-              alt="La sala accogliente di Momòpolis"
-              fill
-              sizes="(max-width: 1024px) 100vw, 500px"
-              className="object-cover"
-            />
-          </div>
-          <div>
+        <Container>
+          <div className="mx-auto max-w-3xl rounded-[2rem] border border-momo-green-neon/40 bg-momo-green-neon/10 p-7 text-center sm:p-10">
             <h2 className="font-display text-3xl font-extrabold text-momo-black">
               {dict.about.teamTitle}
             </h2>

@@ -17,7 +17,7 @@ export default function Header({ locale }: { locale: Locale; dict: Dictionary })
           {!isHome && <Link href={`/${locale}`} aria-label={locale === "it" ? "Torna alla home" : "Back to home"} className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-momo-green-neon text-momo-black shadow-sm transition hover:bg-momo-orange"><ArrowLeft size={20}/></Link>}
           <Link
             href={`/${locale}`}
-            className="relative h-12 w-36 shrink-0 sm:h-14 sm:w-48"
+            className="relative h-12 w-28 shrink-0 sm:h-14 sm:w-48"
             aria-label="Momopolis — torna alla home"
           >
             <Image
@@ -30,8 +30,16 @@ export default function Header({ locale }: { locale: Locale; dict: Dictionary })
             />
           </Link>
         </div>
-        <div className="rounded-full bg-white/95 p-1.5 shadow-lg backdrop-blur">
-          <LanguageSwitcher locale={locale} />
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+          <Link
+            href={`/${locale}/parco#prezzi-orari`}
+            className="rounded-full bg-momo-green-neon px-2.5 py-2 text-[10px] font-extrabold text-momo-black shadow-sm transition hover:bg-momo-orange sm:px-4 sm:text-sm"
+          >
+            {locale === "it" ? "Prezzi e orari" : "Prices & hours"}
+          </Link>
+          <div className="rounded-full bg-white/95 p-1.5 shadow-lg backdrop-blur">
+            <LanguageSwitcher locale={locale} />
+          </div>
         </div>
       </div>
     </header>

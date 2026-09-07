@@ -38,19 +38,20 @@ export default async function AboutPage({
   return (
     <>
       <PageHero
-        kicker={dict.about.kicker}
         title={dict.about.title}
-        intro={dict.about.intro}
       />
 
       <section className="py-16 sm:py-20">
         <Container className="grid items-center gap-10 lg:grid-cols-2">
           <div className="order-2 lg:order-1">
-            <h2 className="font-display text-3xl font-extrabold text-momo-black">
-              {dict.about.storyTitle}
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-momo-black/75">
+            <p className="text-lg font-bold leading-relaxed text-momo-black/80">
+              {dict.about.intro}
+            </p>
+            <p className="mt-5 text-lg leading-relaxed text-momo-black/75">
               {dict.about.storyText}
+            </p>
+            <p className="mt-5 text-lg font-bold leading-relaxed text-momo-green-700">
+              {dict.about.missionText}
             </p>
           </div>
           <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-3xl lg:order-2">
@@ -66,35 +67,6 @@ export default async function AboutPage({
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container>
-          <h2 className="font-display text-center text-3xl font-extrabold text-momo-black sm:text-4xl">
-            {dict.about.valuesTitle}
-          </h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {dict.about.values.map((value, i) => {
-              const Icon = valueIcons[i % valueIcons.length];
-              return (
-                <div
-                  key={value.title}
-                  className="rounded-2xl border border-black/5 bg-momo-cream-dim p-6"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-momo-orange text-momo-black">
-                    <Icon size={22} />
-                  </div>
-                  <h3 className="font-display mt-4 text-lg font-extrabold text-momo-black">
-                    {value.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-momo-black/70">
-                    {value.text}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </Container>
-      </section>
-
-      <section className="pb-16 sm:pb-20">
         <Container className="grid items-center gap-10 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
             <Image
@@ -112,6 +84,28 @@ export default async function AboutPage({
             <p className="mt-4 text-lg leading-relaxed text-momo-black/75">
               {dict.about.teamText}
             </p>
+          </div>
+        </Container>
+      </section>
+
+      <section className="pb-16 sm:pb-20">
+        <Container>
+          <h2 className="font-display text-center text-3xl font-extrabold text-momo-black sm:text-4xl">
+            {dict.about.valuesTitle}
+          </h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {dict.about.values.map((value, i) => {
+              const Icon = valueIcons[i % valueIcons.length];
+              return (
+                <div key={value.title} className="rounded-2xl border border-black/5 bg-momo-cream-dim p-6">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-momo-orange text-momo-black">
+                    <Icon size={22} />
+                  </div>
+                  <h3 className="font-display mt-4 text-lg font-extrabold text-momo-black">{value.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-momo-black/70">{value.text}</p>
+                </div>
+              );
+            })}
           </div>
         </Container>
       </section>

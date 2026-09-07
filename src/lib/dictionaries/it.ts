@@ -70,7 +70,7 @@ const dict = {
       "Momòpolis nasce dall’idea di due genitori che da sempre hanno desiderato un luogo di lavoro vicino alla famiglia.",
     storyTitle: "Family Bar & Park",
     storyText:
-      "Il nostro Family Bar & Park è una struttura innovativa nel Mendrisiotto, con lo scopo di offrire un’esperienza di divertimento e benessere per tutti. Grazie alla zona bar, affacciata sul parco giochi, Momòpolis è un punto d’incontro per famiglie che desiderano trascorrere i propri momenti liberi in un luogo sicuro, accogliente e stimolante. I bambini potranno giocare liberamente, socializzare e scoprire nuove amicizie, mentre gli adulti si concedono una pausa di qualità. A Momòpolis è possibile organizzare feste di compleanno ed eventi personalizzati in tutta semplicità.",
+      "Il nostro Family Bar & Park è una struttura innovativa nel Mendrisiotto, con lo scopo di offrire un’esperienza di divertimento e benessere per tutti. Grazie alla zona bar, affacciata sul parco giochi, Momòpolis è un punto d’incontro per famiglie che desiderano trascorrere i propri momenti liberi in un luogo sicuro, accogliente e stimolante. I bambini potranno giocare liberamente, socializzare e scoprire nuove amicizie, mentre gli adulti si concedono una pausa di qualità.",
     missionTitle: "La nostra missione",
     missionText:
       "A Momòpolis è possibile organizzare feste di compleanno ed eventi personalizzati in tutta semplicità.",
@@ -82,15 +82,15 @@ const dict = {
       },
       {
         title: "Accoglienza per tutta la famiglia",
-        text: "Un ambiente pensato tanto per i bambini quanto per genitori e nonni.",
+        text: "Un ambiente pensato tanto per i bambini quanto per gli adulti.",
       },
       {
         title: "Qualità e cura dei dettagli",
-        text: "Dalla pulizia degli spazi alla qualità del cibo servito al bar, non lasciamo nulla al caso.",
+        text: "Dalla pulizia degli spazi alla qualità del cibo, servizio, non lasciamo nulla al caso.",
       },
       {
         title: "Divertimento su misura",
-        text: "Ogni festa ed evento è organizzato in base ai desideri della famiglia che lo richiede.",
+        text: "Ogni festa ed evento è organizzato in base alle vostre esigenze.",
       },
     ],
     teamTitle: "Un luogo aperto a tutti",

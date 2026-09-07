@@ -16,8 +16,6 @@ const PUBLIC_PATHS = [
   "/en/pacchetti-feste",
   "/it/galleria",
   "/en/galleria",
-  "/it/contatti",
-  "/en/contatti",
   "/it/note-legali",
   "/en/note-legali",
 ];

@@ -53,7 +53,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <div className="relative px-4 pb-8 pt-2 lg:hidden">
         <Link
           href={`/${locale}/chi-siamo`}
-          className="mx-auto flex h-52 w-52 flex-col items-center justify-center rounded-full border-[5px] border-momo-green-neon bg-white p-5 shadow-[0_0_0_8px_rgba(255,255,255,.9),0_18px_45px_rgba(14,166,91,.22)]"
+          className="relative z-20 mx-auto flex h-60 w-60 flex-col items-center justify-center rounded-full border-[6px] border-momo-green-neon bg-white p-5 shadow-[0_0_0_8px_rgba(255,255,255,.9),0_18px_45px_rgba(14,166,91,.22)]"
         >
           <span className="relative h-24 w-full">
             <Image src="/momopolis/logo-header-originale.webp" alt="Momòpolis Family Bar & Park" fill sizes="180px" className="object-contain" priority />
@@ -62,7 +62,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             {isIt ? "Chi siamo" : "About us"}
           </span>
         </Link>
-        <div className="mx-auto mt-6 grid max-w-xl gap-3">
+        <div className="mx-auto -mt-4 grid max-w-xl gap-3">
         {cards.map(({ slug, image, alt }) => (
           <Link
             key={`mobile-${slug}`}
@@ -91,9 +91,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <Link
           href={`/${locale}/chi-siamo`}
           aria-label="Chi siamo — Momopolis"
-          className="group absolute left-1/2 top-1/2 z-20 flex h-64 w-64 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[7px] border-momo-green-neon bg-white p-6 shadow-[0_0_0_14px_rgba(255,255,255,.94),0_24px_70px_rgba(14,166,91,.3)] transition hover:scale-105"
+          className="group absolute left-1/2 top-1/2 z-20 flex h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[8px] border-momo-green-neon bg-white p-8 shadow-[0_0_0_14px_rgba(255,255,255,.94),0_24px_70px_rgba(14,166,91,.3)] transition hover:scale-105"
         >
-          <span className="relative block h-28 w-full">
+          <span className="relative block h-36 w-full">
             <Image src="/momopolis/logo-header-originale.webp" alt="Momopolis" fill sizes="220px" className="object-contain" priority />
           </span>
           <span className="font-display mt-2 rounded-full bg-momo-orange px-6 py-2 text-base font-extrabold text-momo-black transition-colors group-hover:bg-momo-green-neon sm:text-lg">
@@ -106,13 +106,13 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <Container>
         <div className="mx-auto max-w-4xl rounded-[2rem] border border-momo-green-neon/50 bg-gradient-to-br from-white via-white to-momo-green-neon/10 p-7 shadow-sm sm:p-12">
           <h1 className="font-display text-3xl font-extrabold text-momo-black sm:text-4xl">
-            {isIt ? "Momòpolis - Family Bar & Park, divertimento per tutta la famiglia." : "Momòpolis - Family Bar & Park, fun for the whole family."}
+            {isIt ? "Momòpolis - Family Bar & Park" : "Momòpolis - Family Bar & Park"}
           </h1>
           <div className="mt-6 space-y-4 text-lg leading-relaxed text-momo-black/75">
             {isIt ? <>
               <p>Benvenuti a “Momòpolis”, il luogo ideale per lo svago delle famiglie in Ticino. Un Family Bar con area giochi al chiuso per bambini da 0 a 12 anni, dove divertimento, relax e sicurezza si incontrano in un ambiente accogliente aperto tutto l&apos;anno.</p>
               <p>Potrai organizzare feste di compleanno ed eventi privati, vivendo momenti speciali in totale tranquillità.</p>
-              <p>Se cerchi uno spazio dove i tuoi bambini possono sfogarsi giocando, e al contempo concederti un buon caffè, un pranzo, o un aperitivo, Momòpolis è la meta ideale.</p>
+              <p>Se cerchi uno spazio dove i tuoi bambini possono giocare, e al contempo concederti un buon caffè, un pranzo, o un aperitivo, Momòpolis è la meta ideale.</p>
             </> : <>
               <p>Welcome to Momòpolis, the ideal place for family leisure in Ticino. Our Family Bar includes an indoor play area for children aged 0 to 12, where fun, relaxation and safety meet in a welcoming setting open all year round.</p>
               <p>Organise birthday parties and private events and enjoy special moments with complete peace of mind.</p>

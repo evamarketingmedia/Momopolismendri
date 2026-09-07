@@ -54,7 +54,7 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
             </p>
           </div>
 
-          <div className="mx-auto mt-12 max-w-2xl"><OpeningHours locale={lang as Locale} /></div>
+          <div id="prezzi-orari" className="mx-auto mt-12 max-w-2xl scroll-mt-28"><OpeningHours locale={lang as Locale} /></div>
 
           <div className="mt-16 rounded-[2rem] border border-black/10 bg-white p-5 shadow-sm sm:p-9">
             <p className="font-display text-sm font-extrabold uppercase tracking-[.18em] text-momo-orange">{isIt ? "Prezzi ingresso parco" : "Park admission prices"}</p>

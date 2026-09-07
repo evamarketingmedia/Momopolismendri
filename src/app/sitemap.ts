@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { locales } from "@/lib/dictionaries";
 
-const paths = ["", "chi-siamo", "parco", "bar", "galleria", "eventi", "pacchetti-feste", "contatti", "note-legali"];
+const paths = ["", "chi-siamo", "parco", "bar", "galleria", "eventi", "pacchetti-feste", "note-legali"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

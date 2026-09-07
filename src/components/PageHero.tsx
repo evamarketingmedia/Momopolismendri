@@ -6,7 +6,7 @@ export default function PageHero({
   intro,
   titleClassName = "",
 }: {
-  kicker: string;
+  kicker?: string;
   title: string;
   intro?: string;
   titleClassName?: string;
@@ -15,10 +15,8 @@ export default function PageHero({
     <section className="bg-dots-green relative overflow-hidden bg-white pb-20 pt-36 sm:pb-24 sm:pt-36">
       <div className="absolute inset-0 bg-gradient-to-br from-momo-green-neon/35 via-white to-momo-orange/20" />
       <Container className="relative">
-        <p className="font-display text-sm font-bold uppercase tracking-[0.2em] text-momo-orange">
-          {kicker}
-        </p>
-        <h1 className={`font-display mt-3 max-w-3xl text-4xl font-extrabold text-momo-black sm:text-5xl ${titleClassName}`}>
+        {kicker && <p className="font-display text-sm font-bold uppercase tracking-[0.2em] text-momo-orange">{kicker}</p>}
+        <h1 className={`font-display max-w-3xl text-4xl font-extrabold text-momo-black sm:text-5xl ${kicker ? "mt-3" : ""} ${titleClassName}`}>
           {title}
         </h1>
         {intro && (

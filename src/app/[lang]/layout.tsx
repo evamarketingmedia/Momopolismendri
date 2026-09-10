@@ -129,7 +129,7 @@ export default async function LangLayout({
               Momòpolis Mendrisio
             </p>
             <h2 className="font-display mt-2 text-3xl font-extrabold text-momo-black">
-              Come raggiungerci
+              {lang === "it" ? "Come raggiungerci" : "How to reach us"}
             </h2>
             <p className="mt-2 text-momo-black/65">Via Penate 7, 6850 Mendrisio (Ticino)</p>
             <div className="mt-6">

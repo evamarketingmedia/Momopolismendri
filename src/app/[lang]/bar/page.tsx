@@ -18,11 +18,9 @@ export default async function BarPage({ params }: { params: Promise<{ lang: stri
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang as Locale);
-  const isIt = lang === "it";
-
   return (
     <>
-      <PageHero title={dict.bar.title} logoSrc={isIt ? "/momopolis/logo-bar-transparent.png" : "/momopolis/buttons/tasto-bar-en.webp"} logoAlt={dict.bar.title} />
+      <PageHero title={dict.bar.title} logoSrc="/momopolis/logo-bar-transparent.png" logoAlt={dict.bar.title} />
       <section className="py-16 sm:py-20">
         <Container className="grid items-center gap-10 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl">

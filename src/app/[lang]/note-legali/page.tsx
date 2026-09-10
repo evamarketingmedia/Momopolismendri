@@ -19,7 +19,7 @@ export default async function LegalPage({ params }: { params: Promise<{ lang: st
         <div className="mx-auto max-w-4xl space-y-12 rounded-[2rem] border border-black/5 bg-white p-7 shadow-sm sm:p-10">
           <LegalSection title={it ? "Impressum e titolare" : "Legal notice and controller"}>
             <p>Momopolis – Spazio Libero SNC<br />Via Penate 7<br />6850 Mendrisio, Svizzera<br />CHE-441.806.563 IVA</p>
-            <p className="mt-3">E-mail: <a className="font-bold underline" href="mailto:info@momopolis.ch">info@momopolis.ch</a><br />Tel. 0041 91 226 63 76 · Mob. 0041 76 621 63 76</p>
+            <p className="mt-3">E-mail: <a className="font-bold underline" href="mailto:info@momopolis.ch">info@momopolis.ch</a><br />Tel. +41 91 226 63 76 · Mob. +41 76 621 63 76</p>
           </LegalSection>
 
           <div id="privacy" className="scroll-mt-28">

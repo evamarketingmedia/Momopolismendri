@@ -98,12 +98,12 @@ export default function Footer({
             <li className="flex items-center gap-2">
               <Phone size={16} className="shrink-0 text-momo-green-700" />
               <a href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`}>
-                Tel. {siteConfig.phone.replace("+41", "0041")}
+                Tel. {siteConfig.phone}
               </a>
             </li>
             <li className="flex items-center gap-2">
               <Phone size={16} className="shrink-0 text-momo-orange" />
-              <a href={`tel:${siteConfig.mobile.replace(/\s+/g, "")}`}>Mob. {siteConfig.mobile.replace("+41", "0041")}</a>
+              <a href={`tel:${siteConfig.mobile.replace(/\s+/g, "")}`}>Mob. {siteConfig.mobile}</a>
             </li>
             <li className="flex items-center gap-2">
               <Mail size={16} className="shrink-0 text-momo-green-700" />

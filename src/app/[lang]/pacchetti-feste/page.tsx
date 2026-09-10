@@ -10,6 +10,8 @@ import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import BookingForm from "@/components/BookingForm";
 
+export const dynamic = "force-dynamic";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,

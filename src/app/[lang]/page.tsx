@@ -34,10 +34,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-    <section className="portal-home relative overflow-hidden bg-white pt-28 sm:pt-32">
+    <section className="portal-home relative overflow-hidden bg-white pt-20 sm:pt-20">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(166,255,0,.22),transparent_52%)]" />
 
-      <div className="relative mx-auto max-w-4xl px-5 pb-2 pt-4 sm:px-8 lg:pt-6">
+      <div className="relative mx-auto max-w-xl px-5 pb-0 pt-0 sm:px-8">
         <div className="relative aspect-[2.62/1] w-full">
           <Image
             src={isIt ? "/momopolis/payoff.png" : "/momopolis/payoff-en.webp"}
@@ -50,10 +50,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </div>
       </div>
 
-      <div className="relative px-4 pb-8 pt-2 lg:hidden">
+      <div className="relative px-4 pb-8 pt-0 lg:hidden">
         <Link
           href={`/${locale}/chi-siamo`}
-          className="relative z-20 mx-auto flex h-56 w-56 flex-col items-center justify-center rounded-full border-[6px] border-momo-green-neon bg-white p-5 shadow-[0_0_0_8px_rgba(255,255,255,.9),0_18px_45px_rgba(14,166,91,.22)]"
+          className="relative z-20 mx-auto flex h-52 w-52 flex-col items-center justify-center rounded-full border-[6px] border-momo-green-neon bg-white p-5 shadow-[0_0_0_8px_rgba(255,255,255,.9),0_18px_45px_rgba(14,166,91,.22)]"
         >
           <span className="relative h-24 w-full">
             <Image src="/momopolis/logo-header-originale.webp" alt="Momòpolis Family Bar & Park" fill sizes="180px" className="object-contain" priority />
@@ -76,7 +76,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </div>
       </div>
 
-      <div className="relative mx-auto mb-10 mt-2 hidden h-[min(68vh,680px)] min-h-[540px] max-w-6xl grid-cols-2 grid-rows-2 gap-5 p-5 lg:grid">
+      <div className="relative mx-auto mb-10 mt-0 hidden h-[min(62vh,600px)] min-h-[500px] max-w-6xl grid-cols-2 grid-rows-2 gap-5 p-5 lg:grid">
         {cards.map(({ slug, image, alt }) => (
           <Link
             key={slug}
@@ -91,7 +91,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <Link
           href={`/${locale}/chi-siamo`}
           aria-label="Chi siamo — Momopolis"
-          className="group absolute left-1/2 top-1/2 z-20 flex h-72 w-72 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[8px] border-momo-green-neon bg-white p-7 shadow-[0_0_0_12px_rgba(255,255,255,.94),0_24px_70px_rgba(14,166,91,.3)] transition hover:scale-105"
+          className="group absolute left-1/2 top-1/2 z-20 flex h-64 w-64 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[7px] border-momo-green-neon bg-white p-6 shadow-[0_0_0_10px_rgba(255,255,255,.94),0_24px_70px_rgba(14,166,91,.3)] transition hover:scale-105"
         >
           <span className="relative block h-28 w-full">
             <Image src="/momopolis/logo-header-originale.webp" alt="Momopolis" fill sizes="220px" className="object-contain" priority />

@@ -26,10 +26,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
   await getDictionary(locale);
   const isIt = locale === "it";
   const cards = [
-    { slug: "parco", image: "/momopolis/buttons/tasto-parco.png", alt: isIt ? "Il parco" : "The park" },
-    { slug: "bar", image: "/momopolis/buttons/tasto-bar.png", alt: isIt ? "Il bar" : "The bar" },
-    { slug: "pacchetti-feste", image: "/momopolis/buttons/tasto-feste.png", alt: isIt ? "Feste ed eventi" : "Parties and events" },
-    { slug: "eventi", image: "/momopolis/buttons/tasto-promo.png", alt: isIt ? "Promozioni" : "Promotions" },
+    { slug: "parco", image: isIt ? "/momopolis/buttons/tasto-parco.png" : "/momopolis/buttons/tasto-parco-en.webp", alt: isIt ? "Il parco" : "The park" },
+    { slug: "bar", image: isIt ? "/momopolis/buttons/tasto-bar.png" : "/momopolis/buttons/tasto-bar-en.webp", alt: isIt ? "Il bar" : "The bar" },
+    { slug: "pacchetti-feste", image: isIt ? "/momopolis/buttons/tasto-feste.png" : "/momopolis/buttons/tasto-feste-en.webp", alt: isIt ? "Feste ed eventi" : "Parties and events" },
+    { slug: "eventi", image: isIt ? "/momopolis/buttons/tasto-promo.png" : "/momopolis/buttons/tasto-promo-en.webp", alt: isIt ? "Promozioni" : "Special offers" },
   ];
 
   return (
@@ -40,7 +40,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <div className="relative mx-auto max-w-4xl px-5 pb-2 pt-4 sm:px-8 lg:pt-6">
         <div className="relative aspect-[2.62/1] w-full">
           <Image
-            src="/momopolis/payoff.png"
+            src={isIt ? "/momopolis/payoff.png" : "/momopolis/payoff-en.webp"}
             alt={isIt ? "Divertimento per tutta la famiglia" : "Fun for the whole family"}
             fill
             sizes="(max-width: 1024px) 94vw, 850px"
@@ -53,7 +53,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <div className="relative px-4 pb-8 pt-2 lg:hidden">
         <Link
           href={`/${locale}/chi-siamo`}
-          className="relative z-20 mx-auto flex h-60 w-60 flex-col items-center justify-center rounded-full border-[6px] border-momo-green-neon bg-white p-5 shadow-[0_0_0_8px_rgba(255,255,255,.9),0_18px_45px_rgba(14,166,91,.22)]"
+          className="relative z-20 mx-auto flex h-56 w-56 flex-col items-center justify-center rounded-full border-[6px] border-momo-green-neon bg-white p-5 shadow-[0_0_0_8px_rgba(255,255,255,.9),0_18px_45px_rgba(14,166,91,.22)]"
         >
           <span className="relative h-24 w-full">
             <Image src="/momopolis/logo-header-originale.webp" alt="Momòpolis Family Bar & Park" fill sizes="180px" className="object-contain" priority />
@@ -91,9 +91,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <Link
           href={`/${locale}/chi-siamo`}
           aria-label="Chi siamo — Momopolis"
-          className="group absolute left-1/2 top-1/2 z-20 flex h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[8px] border-momo-green-neon bg-white p-8 shadow-[0_0_0_14px_rgba(255,255,255,.94),0_24px_70px_rgba(14,166,91,.3)] transition hover:scale-105"
+          className="group absolute left-1/2 top-1/2 z-20 flex h-72 w-72 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[8px] border-momo-green-neon bg-white p-7 shadow-[0_0_0_12px_rgba(255,255,255,.94),0_24px_70px_rgba(14,166,91,.3)] transition hover:scale-105"
         >
-          <span className="relative block h-36 w-full">
+          <span className="relative block h-28 w-full">
             <Image src="/momopolis/logo-header-originale.webp" alt="Momopolis" fill sizes="220px" className="object-contain" priority />
           </span>
           <span className="font-display mt-2 rounded-full bg-momo-orange px-6 py-2 text-base font-extrabold text-momo-black transition-colors group-hover:bg-momo-green-neon sm:text-lg">

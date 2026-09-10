@@ -18,10 +18,11 @@ export default async function BarPage({ params }: { params: Promise<{ lang: stri
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang as Locale);
+  const isIt = lang === "it";
 
   return (
     <>
-      <PageHero title={dict.bar.title} logoSrc="/momopolis/logo-bar.png" logoAlt={dict.bar.title} />
+      <PageHero title={dict.bar.title} logoSrc={isIt ? "/momopolis/logo-bar.png" : "/momopolis/buttons/tasto-bar-en.webp"} logoAlt={dict.bar.title} />
       <section className="py-16 sm:py-20">
         <Container className="grid items-center gap-10 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl">
@@ -29,9 +30,6 @@ export default async function BarPage({ params }: { params: Promise<{ lang: stri
           </div>
           <div>
             <div className="flex gap-3 text-momo-orange"><Coffee /><UtensilsCrossed /><Gamepad2 /></div>
-            <p className="mt-5 inline-flex rounded-full bg-momo-green-neon px-4 py-2 text-sm font-extrabold text-momo-black">
-              Bar aperto a tutti
-            </p>
             <p className="mt-5 text-lg font-bold leading-relaxed text-momo-black/80">{dict.bar.intro}</p>
             <p className="mt-5 text-lg leading-relaxed text-momo-black/75">{dict.bar.body}</p>
             <h2 className="font-display mt-8 text-3xl font-extrabold text-momo-black">{dict.bar.accessibleTitle}</h2>

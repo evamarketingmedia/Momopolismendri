@@ -25,7 +25,7 @@ export default function PageHero({
           <>
             <h1 className="sr-only">{title}</h1>
             <div className={`relative h-28 w-full max-w-xl sm:h-36 ${kicker ? "mt-3" : ""}`}>
-              <Image src={logoSrc} alt={logoAlt || title} fill priority sizes="(max-width: 640px) 90vw, 576px" className="object-contain object-left" />
+              <Image src={logoSrc} alt={logoAlt || title} fill priority sizes="(max-width: 640px) 90vw, 576px" className="object-contain object-left mix-blend-multiply" />
             </div>
           </>
         ) : (

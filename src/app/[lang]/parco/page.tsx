@@ -23,7 +23,7 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      <PageHero title={dict.park.title} logoSrc="/momopolis/logo-parco.png" logoAlt={dict.park.title} />
+      <PageHero title={dict.park.title} logoSrc={isIt ? "/momopolis/logo-parco.png" : "/momopolis/buttons/tasto-parco-en.webp"} logoAlt={dict.park.title} />
       <section className="py-16 sm:py-20">
         <Container>
           <div className="mx-auto max-w-4xl whitespace-pre-line text-center text-lg leading-relaxed text-momo-black/75 sm:text-xl">

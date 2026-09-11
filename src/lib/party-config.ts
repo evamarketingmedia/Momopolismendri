@@ -53,8 +53,8 @@ export const defaultPartyConfig: PartyConfig = {
   weekendMaxBookings: 4,
   closedWeekdays: [1],
   packages: [
-    { id: "merenda", label: "Merenda", description: "Ingresso al parco\nFood & drink*", price: 25 },
-    { id: "gustoso", label: "Gustoso", description: "Ingresso al parco\nFood & drink*\nFood plus*", price: 30 },
+    { id: "merenda", label: "PUSÀA", description: "Soddisfatti in semplicità\nIngresso al parco\nFood & drink*", price: 25 },
+    { id: "gustoso", label: "BALÒSS", description: "Per i furbetti più golosi\nIngresso al parco\nFood & drink*\nFood plus*", price: 30 },
   ],
   cakes: [
     { id: "nutella", label: "Panini alla Nutella a forma di numero", description: "CHF 3.50 per bambino", price: 3.5 },

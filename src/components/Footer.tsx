@@ -31,6 +31,8 @@ export default function Footer({
   const navItems = [
     { slug: "", label: dict.nav.home },
     { slug: "chi-siamo", label: dict.nav.about },
+    { slug: "parco", label: dict.nav.park },
+    { slug: "bar", label: dict.nav.bar },
     { slug: "pacchetti-feste", label: locale === "it" ? "Compleanni & eventi" : "Birthdays & events" },
     { slug: "eventi", label: locale === "it" ? "Promozioni" : "Promotions" },
   ];

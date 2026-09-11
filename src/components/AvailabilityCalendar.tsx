@@ -53,6 +53,7 @@ export default function AvailabilityCalendar({ locale, dict, slots, selected, on
           mode="single"
           defaultMonth={openDates[0] ?? new Date(2026, 9, 1)}
           locale={locale === "it" ? it : enUS}
+          weekStartsOn={1}
           selected={selected}
           onSelect={onSelect}
           disabled={[{ before: today }, (date) => !openDateKeys.has(date.toDateString())]}

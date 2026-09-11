@@ -10,6 +10,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import StructuredData from "@/components/StructuredData";
 import MapEmbed from "@/components/MapEmbed";
 import Container from "@/components/Container";
+import OpeningNotice from "@/components/OpeningNotice";
 
 const baloo = Baloo_2({
   variable: "--font-baloo",
@@ -139,6 +140,7 @@ export default async function LangLayout({
         </section>
         <Footer locale={lang as Locale} dict={dict} />
         <WhatsAppButton dict={dict} />
+        <OpeningNotice locale={lang as Locale} />
       </body>
     </html>
   );

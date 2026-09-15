@@ -20,6 +20,13 @@ function getPreferredLocale(request: NextRequest): string {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const localizedAdminPath = pathname.match(/^\/(?:it|en)(\/admin(?:\/.*)?$)/);
+  if (localizedAdminPath) {
+    const url = request.nextUrl.clone();
+    url.pathname = localizedAdminPath[1];
+    return NextResponse.redirect(url);
+  }
+
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     return NextResponse.next();
   }

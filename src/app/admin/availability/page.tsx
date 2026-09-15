@@ -3,15 +3,12 @@ import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { getAllAvailability } from "@/lib/availability-store";
-import { listAllBookings, type Booking } from "@/lib/bookings-store";
 import {
   createAvailabilityAction,
   bulkCreateAvailabilityAction,
   updateAvailabilityAction,
   toggleAvailabilityAction,
   deleteAvailabilityAction,
-  updateBookingStatusAction,
-  moveBookingAction,
 } from "./actions";
 import { getPartyConfig } from "@/lib/party-config";
 import { siteConfig } from "@/lib/site-config";
@@ -29,18 +26,6 @@ function formatDate(value:string) {
   const [year,month,day]=value.split("-");
   return `${day}.${month}.${year}`;
 }
-
-const STATUS_LABELS: Record<Booking["status"], string> = {
-  pending: "In attesa",
-  confirmed: "Confermata",
-  cancelled: "Rifiutata",
-};
-
-const STATUS_STYLES: Record<Booking["status"], string> = {
-  pending: "bg-momo-orange/10 text-momo-orange",
-  confirmed: "bg-momo-green-700/10 text-momo-green-700",
-  cancelled: "bg-black/5 text-momo-black/40 line-through",
-};
 
 export default async function AdminAvailabilityPage({
   searchParams,
@@ -71,15 +56,7 @@ export default async function AdminAvailabilityPage({
   }
 
   const { saved } = await searchParams;
-  const [slots, bookings, partyConfig] = await Promise.all([getAllAvailability(), listAllBookings(), getPartyConfig()]);
-
-  const bookingsBySlot = new Map<string, Booking[]>();
-  for (const b of bookings) {
-    if (!b.availabilityId) continue;
-    const list = bookingsBySlot.get(b.availabilityId) ?? [];
-    list.push(b);
-    bookingsBySlot.set(b.availabilityId, list);
-  }
+  const [slots, partyConfig] = await Promise.all([getAllAvailability(), getPartyConfig()]);
 
   return (
     <div className="min-h-screen bg-momo-cream pb-24">
@@ -197,8 +174,8 @@ export default async function AdminAvailabilityPage({
         </section>
 
         {/* SLOTS LIST */}
-        <section id="prenotazioni" className="mt-10 scroll-mt-8 space-y-4">
-          <h2 className="font-display text-2xl font-extrabold text-momo-black">Prenotazioni</h2>
+        <section className="mt-10 scroll-mt-8 space-y-4">
+          <h2 className="font-display text-2xl font-extrabold text-momo-black">Date disponibili</h2>
           {slots.length === 0 && (
             <p className="rounded-2xl border border-dashed border-black/15 bg-white p-8 text-center text-sm text-momo-black/50">
               Nessuna data configurata. Aggiungine una qui sopra: finché non lo fai, il calendario
@@ -207,9 +184,6 @@ export default async function AdminAvailabilityPage({
           )}
 
           {slots.map((slot) => {
-            const slotBookings = bookingsBySlot.get(slot.id) ?? [];
-            const activeBookings = slotBookings.filter((b) => b.status !== "cancelled");
-
             return (
               <details
                 key={slot.id}
@@ -304,81 +278,6 @@ export default async function AdminAvailabilityPage({
                         Elimina
                       </button>
                     </form>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-extrabold uppercase tracking-wide text-momo-black/50">
-                      Prenotazioni ({activeBookings.length})
-                    </p>
-                    {slotBookings.length === 0 ? (
-                      <p className="mt-2 text-sm text-momo-black/50">
-                        Nessuna prenotazione per questa data.
-                      </p>
-                    ) : (
-                      <ul className="mt-2 space-y-2">
-                        {slotBookings.map((b) => (
-                          <li
-                            key={b.id}
-                            className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-momo-cream-dim px-3 py-2 text-sm"
-                          >
-                            <div>
-                              <span className="font-bold text-momo-black">{b.name}</span>{" "}
-                              <span className="text-momo-black/50">
-                                · {b.participants} persone · {b.email} · {b.phone}
-                              </span>
-                              {b.message && (
-                                <p className="text-xs text-momo-black/50">Nota: {b.message}</p>
-                              )}
-                            </div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span
-                                className={`rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_STYLES[b.status]}`}
-                              >
-                                {STATUS_LABELS[b.status]}
-                              </span>
-                              {b.status !== "confirmed" && (
-                                <form action={updateBookingStatusAction}>
-                                  <input type="hidden" name="booking_id" value={b.id} />
-                                  <input type="hidden" name="status" value="confirmed" />
-                                  <button
-                                    type="submit"
-                                    className="rounded-full bg-momo-green-700 px-3 py-1 text-xs font-extrabold text-white"
-                                  >
-                                    Accetta
-                                  </button>
-                                </form>
-                              )}
-                              {b.status !== "cancelled" && (
-                                <form action={updateBookingStatusAction}>
-                                  <input type="hidden" name="booking_id" value={b.id} />
-                                  <input type="hidden" name="status" value="cancelled" />
-                                  <button type="submit" className="rounded-full border border-red-200 px-3 py-1 text-xs font-extrabold text-red-600 hover:bg-red-50">
-                                    Rifiuta
-                                  </button>
-                                </form>
-                              )}
-                            </div>
-                            <form action={moveBookingAction} className="flex w-full flex-wrap items-end gap-2 border-t border-black/5 pt-2">
-                              <input type="hidden" name="booking_id" value={b.id} />
-                              <label className="min-w-52 flex-1">
-                                <span className="mb-1 block text-xs font-bold text-momo-black/55">Sposta a un’altra data</span>
-                                <select name="availability_id" required defaultValue="" className="momo-input py-2 text-xs">
-                                  <option value="" disabled>Seleziona data e fascia</option>
-                                  {slots.filter((candidate) => candidate.id !== slot.id && candidate.isAvailable && candidate.remaining >= b.participants).map((candidate) => (
-                                    <option key={candidate.id} value={candidate.id}>
-                                      {formatDate(candidate.date)}{candidate.startTime ? ` · ${formatTime(candidate.startTime)}${candidate.endTime ? `–${formatTime(candidate.endTime)}` : ""}` : ""}
-                                    </option>
-                                  ))}
-                                </select>
-                              </label>
-                              <button type="submit" className="rounded-full border border-momo-orange px-3 py-2 text-xs font-extrabold text-momo-orange">
-                                Sposta
-                              </button>
-                            </form>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
                 </div>
               </details>

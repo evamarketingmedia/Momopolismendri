@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireAdmin, requireOwner } from "@/lib/admin-auth";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { revalidatePublicSite } from "@/lib/revalidate-site";
 import {
@@ -137,7 +137,7 @@ export async function deleteAvailabilityAction(formData: FormData) {
 }
 
 export async function cancelBookingAction(formData: FormData) {
-  await requireAdmin();
+  await requireOwner();
   requireSupabase();
 
   const bookingId = String(formData.get("booking_id") ?? "");
@@ -150,7 +150,7 @@ export async function cancelBookingAction(formData: FormData) {
 }
 
 export async function updateBookingStatusAction(formData: FormData) {
-  await requireAdmin();
+  await requireOwner();
   requireSupabase();
   const bookingId = String(formData.get("booking_id") ?? "");
   const status = String(formData.get("status") ?? "") as BookingStatus;
@@ -163,7 +163,7 @@ export async function updateBookingStatusAction(formData: FormData) {
 }
 
 export async function moveBookingAction(formData: FormData) {
-  await requireAdmin();
+  await requireOwner();
   requireSupabase();
   const bookingId = String(formData.get("booking_id") ?? "");
   const availabilityId = String(formData.get("availability_id") ?? "");

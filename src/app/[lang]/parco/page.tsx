@@ -49,7 +49,7 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
             </h2>
             <p className="mt-3 text-base font-bold leading-relaxed text-momo-black/75">
               {isIt
-                ? "Per accedere all’area giochi, i bambini devono indossare obbligatoriamente calze antiscivolo, mentre gli adulti accompagnatori devono utilizzare gli appositi copriscarpe, disponibili gratuitamente presso il bar."
+                ? "Per accedere all’area giochi, i bambini devono indossare obbligatoriamente calze antiscivolo. Gli adulti accompagnatori devono utilizzare gli appositi copriscarpe (disponibili gratuitamente presso il bar)."
                 : "To access the play area, children must wear non-slip socks, while accompanying adults must use the shoe covers available free of charge at the bar."}
             </p>
           </div>

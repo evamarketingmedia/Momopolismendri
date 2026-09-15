@@ -44,15 +44,13 @@ export default async function AboutPage({
       <section className="py-16 sm:py-20">
         <Container className="grid items-center gap-10 lg:grid-cols-2">
           <div className="order-2 lg:order-1">
-            <p className="text-lg font-bold leading-relaxed text-momo-black/80">
-              {dict.about.intro}
-            </p>
-            <p className="mt-5 text-lg leading-relaxed text-momo-black/75">
-              {dict.about.storyText}
-            </p>
-            <p className="mt-5 text-lg font-bold leading-relaxed text-momo-green-700">
-              {dict.about.missionText}
-            </p>
+            {locale === "it" ? (
+              <p className="text-lg leading-relaxed text-momo-black/75">
+                <strong className="text-momo-black">Momòpolis</strong> nasce dall’idea di due genitori che da sempre hanno desiderato un luogo di lavoro vicino alla famiglia, ma anche dal bisogno di creare un luogo, per tutte le altre famiglie, che possa offrire un&apos;esperienza di divertimento e benessere. Grazie all&apos;area ristoro, affacciata sul parco giochi, il nostro <strong className="text-momo-black">Family Bar &amp; Park</strong> è un punto d’incontro per chiunque desideri trascorrere i propri momenti liberi in un luogo sicuro, accogliente e stimolante. I bambini potranno giocare liberamente, socializzare e scoprire nuove amicizie, mentre gli adulti si concedono una pausa di qualità.
+              </p>
+            ) : (
+              <p className="text-lg leading-relaxed text-momo-black/75"><strong>{dict.about.intro}</strong> {dict.about.storyText} {dict.about.missionText}</p>
+            )}
           </div>
           <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-3xl lg:order-2">
             <Image

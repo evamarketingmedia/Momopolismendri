@@ -86,7 +86,7 @@ const dict = {
       },
       {
         title: "Qualità e cura dei dettagli",
-        text: "Dalla pulizia degli spazi alla qualità del cibo, servizio, non lasciamo nulla al caso.",
+        text: "Dalla pulizia degli spazi alla qualità del servizio, non lasciamo nulla al caso.",
       },
       {
         title: "Divertimento su misura",
@@ -118,8 +118,8 @@ const dict = {
       { title: "Salta Salta", text: "Tappeto elastico con doppia postazione per dare sfogo a tutta l’energia." },
       { title: "Donuts Slide", text: "Struttura gioco con scivolo e ciambella per discese divertenti." },
       { title: "Area costruzioni", text: "Lego giganti per stimolare la creatività." },
-      { title: "Area lettura", text: "Libreria e divanetti per condividere un momento d’immaginazione con i propri genitori." },
-      { title: "Area 0–3", text: "Ambiente in totale sicurezza con giochi morbidi, salterelli e piccolo castello gonfiabile." },
+      { title: "Area lettura", text: "Per condividere un momento d’immaginazione con i propri genitori." },
+      { title: "Area 0–3", text: "Ambiente in totale sicurezza con giochi soft." },
       { title: "Multigaming", text: "Postazioni videogiochi a moneta per sfidare gli altri o la propria fortuna." },
     ],
   },

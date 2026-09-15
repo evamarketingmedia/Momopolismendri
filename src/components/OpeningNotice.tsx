@@ -17,20 +17,20 @@ export default function OpeningNotice({ locale }: { locale: Locale }) {
   return (
     <aside
       role="status"
-      className="fixed bottom-5 left-1/2 z-[70] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border-2 border-momo-green-neon bg-white px-6 py-5 pr-12 text-center shadow-2xl"
+      className="fixed left-1/2 top-1/2 z-[100] w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border-2 border-momo-green-neon bg-black px-8 py-9 pr-14 text-center text-white shadow-[0_24px_80px_rgba(0,0,0,.55)] sm:px-12 sm:py-11"
     >
       <button
         type="button"
         aria-label={locale === "it" ? "Chiudi avviso" : "Close notice"}
         onClick={() => setVisible(false)}
-        className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-momo-cream-dim transition-colors hover:bg-momo-orange/20"
+        className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
       >
         <X size={18} />
       </button>
-      <p className="font-display text-xl font-extrabold text-momo-black">
+      <p className="font-display text-2xl font-extrabold sm:text-3xl">
         ✨ {locale === "it" ? "Sta arrivando Momòpolis!" : "Momòpolis is coming!"}
       </p>
-      <p className="mt-1 font-bold text-momo-orange">
+      <p className="mt-3 text-lg font-bold text-momo-orange sm:text-xl">
         {locale === "it" ? "Apertura prevista per ottobre 2026" : "Opening planned for October 2026"}
       </p>
     </aside>

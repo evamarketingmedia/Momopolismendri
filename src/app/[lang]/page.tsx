@@ -9,13 +9,17 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const isItalian = lang === "it";
+  const title = isItalian
+    ? "Momopolis | Parco giochi indoor e Family Bar a Mendrisio"
+    : "Momopolis | Indoor playground and Family Bar in Mendrisio";
+  const description = isItalian
+    ? "Scopri Momopolis, il Family Bar & Park a Mendrisio: parco giochi indoor per bambini, feste di compleanno e uno spazio dedicato a tutta la famiglia."
+    : "Discover Momopolis, the Family Bar & Park in Mendrisio: an indoor playground for children, birthday parties and a space for the whole family.";
   return {
-    title: isItalian
-      ? "Parco giochi indoor e Family Bar a Mendrisio"
-      : "Indoor playground and Family Bar in Mendrisio",
-    description: isItalian
-      ? "Momòpolis è il parco giochi indoor con Family Bar a Mendrisio, Ticino: giochi per bambini, feste di compleanno ed eventi vicino a Como e Varese."
-      : "Momòpolis is an indoor playground and Family Bar in Mendrisio, Ticino, with children's parties and events near Como and Varese.",
+    title: { absolute: title },
+    description,
+    openGraph: { title, description },
+    twitter: { title, description },
   };
 }
 

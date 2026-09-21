@@ -27,12 +27,13 @@ export default function OpeningNotice({ locale }: { locale: Locale }) {
       >
         <X size={18} />
       </button>
-      <p className="font-display text-2xl font-extrabold sm:text-3xl">
-        ✨ {locale === "it" ? "Sta arrivando Momòpolis!" : "Momòpolis is coming!"}
-      </p>
-      <p className="mt-3 text-lg font-bold text-momo-orange sm:text-xl">
-        {locale === "it" ? "Apertura prevista per ottobre 2026" : "Opening planned for October 2026"}
-      </p>
+      {locale === "it" ? (
+        <p className="font-display text-2xl font-extrabold sm:text-3xl">
+          ✨ Sta arrivando Momòpolis! Apertura ottobre 2026
+        </p>
+      ) : (
+        <><p className="font-display text-2xl font-extrabold sm:text-3xl">✨ Momòpolis is coming!</p><p className="mt-3 text-lg font-bold text-momo-orange sm:text-xl">Opening planned for October 2026</p></>
+      )}
     </aside>
   );
 }

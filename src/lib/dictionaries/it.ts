@@ -93,7 +93,7 @@ const dict = {
         text: "Ogni festa ed evento è organizzato in base alle vostre esigenze.",
       },
     ],
-    teamTitle: "Un luogo aperto a tutti",
+    teamTitle: "Aperto a tutti!",
     teamText:
       "Non solo per famiglie: il nostro bar rappresenta anche un’ottima occasione per chiunque voglia concedersi una pausa caffè, un pranzo o un aperitivo in compagnia durante una giornata di shopping o di lavoro.",
   },
@@ -113,7 +113,7 @@ const dict = {
     intro: "Ampia area giochi al coperto con attrazioni per diverse fasce d’età. I bambini più piccoli esplorano spazi morbidi e protetti, mentre i bambini più grandi trovano percorsi, giochi e attività pensati per stimolare movimento e socializzazione.\n\nPer i momenti più tranquilli abbiamo dedicato un’area lettura.",
     gamesTitle: "I giochi",
     games: [
-      { title: "Struttura gioco Momòpolis", text: "Una Città di percorsi, tunnel, ostacoli, scivoli e vasca palline per il massimo divertimento." },
+      { title: "Momòpolis", text: "Una Città di percorsi, tunnel, ostacoli, scivoli e vasca palline per il massimo divertimento." },
       { title: "Parete arrampicata", text: "Parete verticale a prese per lo sviluppo dell’agilità." },
       { title: "Salta Salta", text: "Tappeto elastico con doppia postazione per dare sfogo a tutta l’energia." },
       { title: "Donuts Slide", text: "Struttura gioco con scivolo e ciambella per discese divertenti." },

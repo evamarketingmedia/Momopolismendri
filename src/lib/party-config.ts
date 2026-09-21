@@ -58,9 +58,9 @@ export const defaultPartyConfig: PartyConfig = {
   ],
   cakes: [
     { id: "nutella", label: "Panini alla Nutella a forma di numero", description: "CHF 3.50 per bambino", price: 3.5 },
-    { id: "fruit", label: "Crostata o sfoglia di frutta", description: "CHF 5 per bambino", price: 5 },
-    { id: "classic-cake", label: "Torta classica", description: "Foresta nera, Saint-Honoré, meringata, pandispagna…", price: 5 },
-    { id: "personalised-cake", label: "Torta personalizzata", description: "Con foto, immagini o scritte speciali", price: 6 },
+    { id: "fruit", label: "Crostata o sfoglia di frutta", description: "CHF 6 per bambino", price: 6 },
+    { id: "classic-cake", label: "Torta classica", description: "Foresta nera, Saint-Honoré, meringata, pandispagna…", price: 6 },
+    { id: "personalised-cake", label: "Torta personalizzata", description: "Con foto, immagini o scritte speciali", price: 7 },
   ],
   extras: [
     { id: "prosecco", label: "Bottiglia di prosecco", description: "Una bottiglia", price: 32 },

@@ -19,20 +19,20 @@ export default function PageHero({
   return (
     <section className="bg-dots-green relative overflow-hidden bg-white pb-20 pt-36 sm:pb-24 sm:pt-36">
       <div className="absolute inset-0 bg-gradient-to-br from-momo-green-neon/35 via-white to-momo-orange/20" />
-      <Container className="relative">
+      <Container className="relative text-center">
         {kicker && <p className="font-display text-sm font-bold uppercase tracking-[0.2em] text-momo-orange">{kicker}</p>}
         {logoSrc ? (
           <>
             <h1 className="sr-only">{title}</h1>
-            <div className={`relative h-28 w-full max-w-xl sm:h-36 ${kicker ? "mt-3" : ""}`}>
-              <Image src={logoSrc} alt={logoAlt || title} fill priority sizes="(max-width: 640px) 90vw, 576px" className="object-contain object-left mix-blend-multiply" />
+            <div className={`relative mx-auto h-28 w-full max-w-xl sm:h-36 ${kicker ? "mt-3" : ""}`}>
+              <Image src={logoSrc} alt={logoAlt || title} fill priority sizes="(max-width: 640px) 90vw, 576px" className="object-contain object-center mix-blend-multiply" />
             </div>
           </>
         ) : (
-          <h1 className={`font-display max-w-3xl text-4xl font-extrabold text-momo-black sm:text-5xl ${kicker ? "mt-3" : ""} ${titleClassName}`}>{title}</h1>
+          <h1 className={`font-display mx-auto max-w-3xl text-4xl font-extrabold text-momo-black sm:text-5xl ${kicker ? "mt-3" : ""} ${titleClassName}`}>{title}</h1>
         )}
         {intro && (
-          <p className="mt-5 max-w-2xl text-lg text-momo-black/70">{intro}</p>
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-momo-black/70">{intro}</p>
         )}
       </Container>
       <svg

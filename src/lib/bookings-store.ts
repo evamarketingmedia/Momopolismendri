@@ -5,6 +5,7 @@ export type BookingStatus = "pending" | "confirmed" | "cancelled";
 
 export type Booking = {
   id: string;
+  quoteNumber: number | null;
   availabilityId: string | null;
   name: string;
   email: string;
@@ -22,6 +23,7 @@ export type Booking = {
 
 type BookingRow = {
   id: string;
+  quote_number: number | null;
   availability_id: string | null;
   name: string;
   email: string;
@@ -40,6 +42,7 @@ type BookingRow = {
 function fromRow(row: BookingRow): Booking {
   return {
     id: row.id,
+    quoteNumber: row.quote_number,
     availabilityId: row.availability_id,
     name: row.name,
     email: row.email,

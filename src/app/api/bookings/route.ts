@@ -29,6 +29,12 @@ export async function POST(request: Request) {
   const locale = hasLocale(rawLocale) ? rawLocale : defaultLocale;
   const bookingBlock = String(body.bookingBlock ?? "");
   const eventName = String(body.eventName ?? "").trim();
+  const arrivalTime = String(body.arrivalTime ?? "").trim();
+  const eventAge = String(body.eventAge ?? "").trim();
+  const secondName = String(body.secondName ?? "").trim();
+  const secondAge = String(body.secondAge ?? "").trim();
+  const children = Number(body.children);
+  const adults = Number(body.adults);
   const quoteTotal = Number(body.quoteTotal);
 
   if (!availabilityId || !UUID_RE.test(availabilityId)) {
@@ -71,7 +77,17 @@ export async function POST(request: Request) {
     });
 
     try {
-      await sendBookingEmails(booking, { bookingBlock, eventName, quoteTotal: Number.isFinite(quoteTotal) ? quoteTotal : 0 });
+      await sendBookingEmails(booking, {
+        bookingBlock,
+        arrivalTime,
+        eventName,
+        eventAge,
+        secondName,
+        secondAge,
+        children: Number.isFinite(children) ? children : 0,
+        adults: Number.isFinite(adults) ? adults : 0,
+        quoteTotal: Number.isFinite(quoteTotal) ? quoteTotal : 0,
+      });
     } catch (err) {
       console.error(`[bookings] email dispatch threw for booking ${booking.id}`, err);
     }

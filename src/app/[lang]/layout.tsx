@@ -44,11 +44,16 @@ export async function generateMetadata({
       template: `%s · ${siteConfig.name}`,
     },
     description: dict.home.heroSubtitle,
-    icons: {
-      icon: [{ url: "/momopolis/logo-originale.webp", type: "image/webp" }],
-      shortcut: "/momopolis/logo-originale.webp",
-      apple: "/momopolis/logo-originale.webp",
+icons: {
+    icon: [
+      {
+      url: "/icon.png",
+      type: "image/png",
     },
+  ],
+  shortcut: "/icon.png",
+  apple: "/icon.png",
+},
     keywords:
       lang === "it"
         ? [

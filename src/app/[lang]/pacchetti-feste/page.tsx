@@ -5,7 +5,7 @@ import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import { getPartyConfig } from "@/lib/party-config";
 import { getUpcomingAvailability } from "@/lib/availability-store";
 import { isDateWithinBookingRules } from "@/lib/booking-rules";
-import { siteConfig } from "@/lib/site-config";
+import { publicPageAlternates, siteConfig } from "@/lib/site-config";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import BookingForm from "@/components/BookingForm";
@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!hasLocale(lang))return{};return{title:lang==="it"?"Compleanni ed eventi":"Birthdays and events",description:lang==="it"?"Feste di compleanno ed eventi personalizzati da Momòpolis a Mendrisio.":"Birthday parties and custom events at Momòpolis in Mendrisio."};}
+export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!hasLocale(lang))return{};return{title:lang==="it"?"Compleanni ed eventi":"Birthdays and events",description:lang==="it"?"Feste di compleanno ed eventi personalizzati da Momòpolis a Mendrisio.":"Birthday parties and custom events at Momòpolis in Mendrisio.",alternates:publicPageAlternates(lang,"pacchetti-feste")};}
 
 export default async function PartiesPage({params}:{params:Promise<{lang:string}>}) {
   const {lang}=await params;if(!hasLocale(lang))notFound();const locale=lang as Locale;const [dict,config,availability]=await Promise.all([getDictionary(locale),getPartyConfig(),getUpcomingAvailability().catch(()=>[])]);const initialSlots=availability.map(slot=>({...slot,remainingBookings:1,isWithinRules:isDateWithinBookingRules(slot.date,config)}));const it=locale==="it";

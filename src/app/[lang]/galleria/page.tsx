@@ -5,6 +5,7 @@ import { getGalleryImages } from "@/lib/gallery-store";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import Gallery from "@/components/Gallery";
+import { publicPageAlternates } from "@/lib/site-config";
 
 // Re-fetch from Supabase periodically so photo edits made in the dashboard
 // show up without a redeploy, while still benefiting from static caching.
@@ -21,7 +22,7 @@ export async function generateMetadata({
   return {
     title: dict.gallery.title,
     description: dict.gallery.intro,
-    alternates: { canonical: `/${lang}/galleria` },
+    alternates: publicPageAlternates(lang, "galleria"),
   };
 }
 

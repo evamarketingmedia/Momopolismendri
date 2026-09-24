@@ -3,7 +3,7 @@ import { Baloo_2, Nunito } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { getDictionary, hasLocale, locales, type Locale } from "@/lib/dictionaries";
-import { siteConfig } from "@/lib/site-config";
+import { publicPageAlternates, siteConfig } from "@/lib/site-config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -81,14 +81,7 @@ export async function generateMetadata({
             "indoor playground near Como",
             "Momòpolis",
           ],
-    alternates: {
-      canonical: `/${lang}`,
-      languages: {
-        it: "/it",
-        en: "/en",
-        "x-default": "/it",
-      },
-    },
+    alternates: publicPageAlternates(lang),
     openGraph: {
       siteName: siteConfig.name,
       title: `${siteConfig.name} · ${siteConfig.tagline}`,

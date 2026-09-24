@@ -5,6 +5,7 @@ import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import OpeningHours from "@/components/OpeningHours";
+import { publicPageAlternates } from "@/lib/site-config";
 
 const gameIcons = [Castle, Mountain, Zap, CircleDot, Blocks, BookOpen, Baby, Gamepad2];
 
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: dict.park.title, description: dict.park.intro };
+  return { title: dict.park.title, description: dict.park.intro, alternates: publicPageAlternates(lang, "parco") };
 }
 
 export default async function ParkPage({ params }: { params: Promise<{ lang: string }> }) {

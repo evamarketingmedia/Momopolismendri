@@ -4,8 +4,9 @@ import { BadgePercent, Gift, Sparkles } from "lucide-react";
 import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import { publicPageAlternates } from "@/lib/site-config";
 
-export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;return hasLocale(lang)?{title:lang==="it"?"Promozioni":"Promotions",description:lang==="it"?"Offerte e sconti Momòpolis a Mendrisio.":"Momòpolis offers and discounts in Mendrisio."}:{};}
+export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;return hasLocale(lang)?{title:lang==="it"?"Promozioni":"Promotions",description:lang==="it"?"Offerte e sconti Momòpolis a Mendrisio.":"Momòpolis offers and discounts in Mendrisio.",alternates:publicPageAlternates(lang,"eventi")}:{};}
 
 export default async function PromotionsPage({params}:{params:Promise<{lang:string}>}) {
   const {lang}=await params;if(!hasLocale(lang))notFound();const locale=lang as Locale;await getDictionary(locale);const it=locale==="it";

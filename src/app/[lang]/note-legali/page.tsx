@@ -3,8 +3,13 @@ import { notFound } from "next/navigation";
 import { hasLocale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import { publicPageAlternates } from "@/lib/site-config";
 
-export const metadata: Metadata = { robots: { index: true, follow: true } };
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) return {};
+  return { robots: { index: true, follow: true }, alternates: publicPageAlternates(lang, "note-legali") };
+}
 
 export default async function LegalPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;

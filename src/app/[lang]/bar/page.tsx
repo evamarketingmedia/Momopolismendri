@@ -6,12 +6,13 @@ import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import OpeningHours from "@/components/OpeningHours";
+import { publicPageAlternates } from "@/lib/site-config";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: dict.bar.title, description: dict.bar.intro };
+  return { title: dict.bar.title, description: dict.bar.intro, alternates: publicPageAlternates(lang, "bar") };
 }
 
 export default async function BarPage({ params }: { params: Promise<{ lang: string }> }) {

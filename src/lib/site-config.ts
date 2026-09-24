@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Momòpolis",
   tagline: "Family Bar & Park",
-  domain: "https://www.momopolis.ch",
+  domain: "https://momopolis.ch",
   email: "info@momopolis.ch",
   phone: "+41 91 226 63 76",
   mobile: "+41 76 621 63 76",
@@ -34,3 +34,15 @@ export const siteConfig = {
     facebook: "",
   },
 } as const;
+
+export function publicPageAlternates(lang: string, slug = "") {
+  const suffix = slug ? `/${slug}` : "";
+  return {
+    canonical: `/${lang}${suffix}`,
+    languages: {
+      it: `/it${suffix}`,
+      en: `/en${suffix}`,
+      "x-default": `/it${suffix}`,
+    },
+  };
+}

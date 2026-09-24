@@ -5,6 +5,7 @@ import { ShieldCheck, Heart, Sparkles, PartyPopper } from "lucide-react";
 import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import { publicPageAlternates } from "@/lib/site-config";
 
 const valueIcons = [ShieldCheck, Heart, Sparkles, PartyPopper];
 
@@ -21,7 +22,7 @@ export async function generateMetadata({
   return {
     title: dict.about.title,
     description: dict.about.intro,
-    alternates: { canonical: `/${lang}/chi-siamo` },
+    alternates: publicPageAlternates(lang, "chi-siamo"),
   };
 }
 

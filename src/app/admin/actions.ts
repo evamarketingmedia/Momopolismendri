@@ -142,7 +142,7 @@ export async function updatePartyConfig(formData: FormData) {
     adultPrice: Number(formData.get("adultPrice")),
     minimumChildren: Number(formData.get("minimumChildren")),
     minimumAdvanceDays: Number(formData.get("minimumAdvanceDays")),
-    bookingStartDate: String(formData.get("bookingStartDate") ?? "2026-10-15"),
+    bookingStartDate: String(formData.get("bookingStartDate") ?? "2026-11-01"),
     bookingEndDate: String(formData.get("bookingEndDate") ?? ""),
     morningWeekdayPrice: Number(formData.get("morningWeekdayPrice")),
     morningHolidayPrice: Number(formData.get("morningHolidayPrice")),

@@ -41,7 +41,7 @@ export const defaultPartyConfig: PartyConfig = {
   adultPrice: 3,
   minimumChildren: 0,
   minimumAdvanceDays: 5,
-  bookingStartDate: "2026-10-15",
+  bookingStartDate: "2026-11-01",
   bookingEndDate: "2099-12-31",
   morningWeekdayPrice: 80,
   morningHolidayPrice: 100,
@@ -88,7 +88,7 @@ export async function getPartyConfig(): Promise<PartyConfig> {
     return {
       ...defaultPartyConfig,
       ...stored,
-      bookingStartDate: stored.bookingStartDate || "2026-10-15",
+      bookingStartDate: stored.bookingStartDate || "2026-11-01",
       bookingEndDate: !stored.bookingStartDate && stored.bookingEndDate === "2026-10-15" ? "2099-12-31" : (stored.bookingEndDate ?? "2099-12-31"),
       packages: stored.packages ?? defaultPartyConfig.packages,
       cakes: stored.cakes ?? defaultPartyConfig.cakes,

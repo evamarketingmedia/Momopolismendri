@@ -146,7 +146,7 @@ begin
   end if;
 
   select url::jsonb into v_config from site_images where key = 'party_config';
-  v_start_date := coalesce(nullif(v_config->>'bookingStartDate','')::date, date '2026-10-01');
+  v_start_date := coalesce(nullif(v_config->>'bookingStartDate','')::date, date '2026-11-01');
   v_end_date := nullif(v_config->>'bookingEndDate','')::date;
 
   if not v_slot.is_available

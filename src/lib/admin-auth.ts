@@ -81,20 +81,20 @@ function safeTextEqual(left: string, right: string): boolean {
  * the client's password can be rotated without changing or redeploying code.
  * The configured user id must still have role=client in public.admin_users.
  */
-export async function authenticateClient(email: string, password: string): Promise<AuthenticatedAdmin | null> {
-  const configuredEmail = process.env.CLIENT_ADMIN_EMAIL?.trim().toLowerCase();
+export async function authenticateClient(username: string, password: string): Promise<AuthenticatedAdmin | null> {
+  const configuredUsername = process.env.CLIENT_ADMIN_USERNAME?.trim();
   const configuredPassword = process.env.CLIENT_ADMIN_PASSWORD;
   const configuredUserId = process.env.CLIENT_ADMIN_USER_ID?.trim();
 
-  if (configuredEmail && configuredPassword && configuredUserId) {
-    const emailMatches = safeTextEqual(email.trim().toLowerCase(), configuredEmail);
+  if (configuredUsername && configuredPassword && configuredUserId) {
+    const usernameMatches = safeTextEqual(username.trim(), configuredUsername);
     const passwordMatches = safeTextEqual(password, configuredPassword);
-    if (!emailMatches || !passwordMatches || !UUID_PATTERN.test(configuredUserId)) return null;
+    if (!usernameMatches || !passwordMatches || !UUID_PATTERN.test(configuredUserId)) return null;
     const role = await getRoleForUser(configuredUserId);
     return role === "client" ? { userId: configuredUserId, role } : null;
   }
 
-  const admin = await authenticateAdmin(email, password);
+  const admin = await authenticateAdmin(username, password);
   return admin?.role === "client" ? admin : null;
 }
 

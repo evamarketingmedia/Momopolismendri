@@ -60,7 +60,7 @@ export default async function AdminAvailabilityPage({
 
   return (
     <div className="min-h-screen bg-momo-cream pb-24">
-      <div className="mx-auto max-w-5xl px-6 py-10">
+      <div className="mx-auto max-w-5xl px-4 py-7 sm:px-6 sm:py-10">
         {saved && (
           <div className="mb-8 rounded-xl bg-momo-green-700/10 px-4 py-3 text-sm font-bold text-momo-green-700">
             Modifica salvata.
@@ -83,7 +83,7 @@ export default async function AdminAvailabilityPage({
         </section>
 
         {/* ADD SINGLE DATE */}
-        <section className="mt-8 rounded-2xl border border-black/10 bg-white p-6">
+        <section className="mt-8 rounded-2xl border border-black/10 bg-white p-4 sm:p-6">
           <h2 className="font-display text-sm font-extrabold uppercase tracking-wide text-momo-black/60">
             Aggiungi una data
           </h2>
@@ -125,7 +125,7 @@ export default async function AdminAvailabilityPage({
         </section>
 
         {/* BULK ADD */}
-        <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+        <section className="mt-6 rounded-2xl border border-black/10 bg-white p-4 sm:p-6">
           <h2 className="font-display text-sm font-extrabold uppercase tracking-wide text-momo-black/60">
             Aggiungi in blocco (periodo)
           </h2>
@@ -189,7 +189,7 @@ export default async function AdminAvailabilityPage({
                 key={slot.id}
                 className="group overflow-hidden rounded-2xl border border-black/10 bg-white"
               >
-                <summary className="flex cursor-pointer flex-wrap items-center justify-between gap-3 px-5 py-4">
+                <summary className="flex cursor-pointer flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-5">
                   <div>
                     <p className="font-display font-extrabold text-momo-black">
                       {formatDate(slot.date)}
@@ -221,9 +221,9 @@ export default async function AdminAvailabilityPage({
                   </span>
                 </summary>
 
-                <div className="space-y-4 border-t border-black/5 px-5 py-4">
+                <div className="space-y-4 border-t border-black/5 px-4 py-4 sm:px-5">
                   <div className="flex flex-wrap items-end gap-3">
-                    <form action={updateAvailabilityAction} className="flex items-end gap-2">
+                    <form action={updateAvailabilityAction} className="grid w-full gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-end">
                       <input type="hidden" name="id" value={slot.id} />
                       <Field label="Posti totali">
                         <input
@@ -231,7 +231,7 @@ export default async function AdminAvailabilityPage({
                           name="capacity"
                           min={1}
                           defaultValue={slot.capacity}
-                          className="momo-input w-24"
+                          className="momo-input w-full"
                         />
                       </Field>
                       <Field label="Nota interna">
@@ -244,7 +244,7 @@ export default async function AdminAvailabilityPage({
                       </Field>
                       <button
                         type="submit"
-                        className="rounded-full bg-momo-black px-4 py-2 text-xs font-extrabold text-white"
+                        className="w-full rounded-full bg-momo-black px-4 py-3 text-sm font-extrabold text-white sm:w-auto sm:py-2 sm:text-xs"
                       >
                         Salva
                       </button>
@@ -259,7 +259,7 @@ export default async function AdminAvailabilityPage({
                       />
                       <button
                         type="submit"
-                        className={`rounded-full px-4 py-2 text-xs font-extrabold ${
+                        className={`min-h-11 rounded-full px-5 py-2 text-sm font-extrabold ${
                           slot.isAvailable
                             ? "border border-momo-orange text-momo-orange"
                             : "bg-momo-green-700 text-white"
@@ -273,7 +273,7 @@ export default async function AdminAvailabilityPage({
                       <input type="hidden" name="id" value={slot.id} />
                       <button
                         type="submit"
-                        className="rounded-full border border-red-200 px-4 py-2 text-xs font-extrabold text-red-600 hover:bg-red-50"
+                        className="min-h-11 rounded-full border border-red-200 px-5 py-2 text-sm font-extrabold text-red-600 hover:bg-red-50"
                       >
                         Elimina
                       </button>

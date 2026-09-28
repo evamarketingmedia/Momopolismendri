@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import {
   authenticateAdmin,
+  authenticateClient,
   createAdminSession,
   clearAdminSession,
   requireOwner,
@@ -15,7 +16,12 @@ export async function loginAction(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   const clientPortal = formData.get("portal") === "client";
 
-  const admin = await authenticateAdmin(username, password);
+  const admin = clientPortal
+    ? await authenticateClient(username, password)
+    : await authenticateAdmin(username, password);
+  if (admin && ((!clientPortal && admin.role !== "owner") || (clientPortal && admin.role !== "client"))) {
+    redirect(clientPortal ? "/admin/client/login?error=1" : "/admin/login?error=1");
+  }
   if (!admin) {
     redirect(clientPortal ? "/admin/client/login?error=1" : "/admin/login?error=1");
   }
@@ -24,9 +30,10 @@ export async function loginAction(formData: FormData) {
   redirect(admin.role === "client" ? "/admin/client" : "/admin");
 }
 
-export async function logoutAction() {
+export async function logoutAction(formData: FormData) {
+  const clientPortal = formData.get("portal") === "client";
   await clearAdminSession();
-  redirect("/admin/login");
+  redirect(clientPortal ? "/admin/client/login" : "/admin/login");
 }
 
 export async function updateSiteImage(formData: FormData) {

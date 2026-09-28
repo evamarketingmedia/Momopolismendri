@@ -69,6 +69,35 @@ export async function authenticateAdmin(email: string, password: string): Promis
   return role ? { userId: data.user.id, role } : null;
 }
 
+function safeTextEqual(left: string, right: string): boolean {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  if (leftBuffer.length !== rightBuffer.length) return false;
+  return timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+/**
+ * Dedicated client login. Netlify environment variables take precedence, so
+ * the client's password can be rotated without changing or redeploying code.
+ * The configured user id must still have role=client in public.admin_users.
+ */
+export async function authenticateClient(email: string, password: string): Promise<AuthenticatedAdmin | null> {
+  const configuredEmail = process.env.CLIENT_ADMIN_EMAIL?.trim().toLowerCase();
+  const configuredPassword = process.env.CLIENT_ADMIN_PASSWORD;
+  const configuredUserId = process.env.CLIENT_ADMIN_USER_ID?.trim();
+
+  if (configuredEmail && configuredPassword && configuredUserId) {
+    const emailMatches = safeTextEqual(email.trim().toLowerCase(), configuredEmail);
+    const passwordMatches = safeTextEqual(password, configuredPassword);
+    if (!emailMatches || !passwordMatches || !UUID_PATTERN.test(configuredUserId)) return null;
+    const role = await getRoleForUser(configuredUserId);
+    return role === "client" ? { userId: configuredUserId, role } : null;
+  }
+
+  const admin = await authenticateAdmin(email, password);
+  return admin?.role === "client" ? admin : null;
+}
+
 export async function createAdminSession(userId: string): Promise<void> {
   if (!UUID_PATTERN.test(userId)) throw new Error("ID utente admin non valido");
   const expiresAt = Date.now() + SESSION_TTL_MS;

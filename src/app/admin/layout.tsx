@@ -29,12 +29,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <html lang="it" className={`${baloo.variable} ${nunito.variable} h-full antialiased`}>
       <body className="min-h-full bg-momo-cream">
         {role && (
-          <header className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-4 border-b-2 border-momo-orange bg-momo-green-neon px-6 py-4">
+          <header className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b-2 border-momo-orange bg-momo-green-neon px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
             <div className="flex flex-wrap items-center gap-6">
               <span className="font-display text-xl font-extrabold text-momo-black">
                 Momòpolis <span className="text-momo-black/50">Admin</span>
               </span>
-              <nav className="flex gap-1">
+              <nav className="flex flex-wrap gap-1">
                 {role === "owner" && <Link href="/admin" className="rounded-full px-3 py-1.5 text-sm font-bold text-momo-black/80 hover:bg-white/60">Contenuti e preventivatore</Link>}
                 <Link
                   href="/admin/availability"
@@ -46,6 +46,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               </nav>
             </div>
             <form action={logoutAction}>
+              {role === "client" && <input type="hidden" name="portal" value="client" />}
               <button
                 type="submit"
                 className="rounded-full border border-momo-black/20 bg-white px-4 py-2 text-sm font-bold text-momo-black/80"

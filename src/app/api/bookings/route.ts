@@ -9,6 +9,15 @@ import { dailyBookingLimit, isDateWithinBookingRules } from "@/lib/booking-rules
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const HALF_DAY_CAPACITY = 50;
+
+function storedBlock(message?: string): "morning" | "afternoon" | "full_day" | null {
+  if (!message) return null;
+  if (/Quando: Mattina|Reserved block: Morning/i.test(message)) return "morning";
+  if (/Quando: Pomeriggio|Reserved block: Afternoon/i.test(message)) return "afternoon";
+  if (/Quando: Giornata|Reserved block: Full day/i.test(message)) return "full_day";
+  return null;
+}
 
 export async function POST(request: Request) {
   let body: Record<string, unknown>;
@@ -36,6 +45,7 @@ export async function POST(request: Request) {
   const children = Number(body.children);
   const adults = Number(body.adults);
   const quoteTotal = Number(body.quoteTotal);
+  const setupTheme = String(body.setupTheme ?? "").trim();
 
   if (!availabilityId || !UUID_RE.test(availabilityId)) {
     return NextResponse.json({ error: "INVALID_AVAILABILITY" }, { status: 400 });
@@ -65,6 +75,15 @@ export async function POST(request: Request) {
     if (dailyCount >= dailyBookingLimit(requestedSlot.date, config)) {
       return NextResponse.json({ error: "DAILY_LIMIT_REACHED" }, { status: 409 });
     }
+    const sameDay = existingBookings.filter((b) => b.date === requestedSlot.date && b.status !== "cancelled");
+    const usedMorning = sameDay.filter((b) => ["morning", "full_day", null].includes(storedBlock(b.message))).reduce((sum, b) => sum + b.participants, 0);
+    const usedAfternoon = sameDay.filter((b) => ["afternoon", "full_day", null].includes(storedBlock(b.message))).reduce((sum, b) => sum + b.participants, 0);
+    const exceedsBlock = bookingBlock === "morning"
+      ? usedMorning + participants > HALF_DAY_CAPACITY
+      : bookingBlock === "afternoon"
+        ? usedAfternoon + participants > HALF_DAY_CAPACITY
+        : usedMorning + participants > HALF_DAY_CAPACITY || usedAfternoon + participants > HALF_DAY_CAPACITY;
+    if (exceedsBlock) return NextResponse.json({ error: "NOT_ENOUGH_SEATS" }, { status: 409 });
     const booking = await createBookingAtomic({
       availabilityId,
       name,
@@ -87,6 +106,7 @@ export async function POST(request: Request) {
         children: Number.isFinite(children) ? children : 0,
         adults: Number.isFinite(adults) ? adults : 0,
         quoteTotal: Number.isFinite(quoteTotal) ? quoteTotal : 0,
+        setupTheme,
       });
     } catch (err) {
       console.error(`[bookings] email dispatch threw for booking ${booking.id}`, err);

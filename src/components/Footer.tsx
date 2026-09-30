@@ -48,13 +48,15 @@ export default function Footer({
             {dict.footer.tagline}
           </p>
           <div className="mt-5 flex gap-3">
-            <span
+            <a
               aria-label="Instagram"
-              aria-disabled="true"
-              className="flex h-10 w-10 cursor-default items-center justify-center rounded-full border-2 border-momo-green-neon bg-momo-green-neon/15 text-momo-black/55"
+              href="https://www.instagram.com/momopolis_familybarpark?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-momo-green-neon bg-momo-green-neon/15 text-momo-black transition-transform hover:scale-105"
             >
               <InstagramIcon />
-            </span>
+            </a>
             <span
               aria-label="Facebook"
               aria-disabled="true"

@@ -11,6 +11,7 @@ import StructuredData from "@/components/StructuredData";
 import MapEmbed from "@/components/MapEmbed";
 import Container from "@/components/Container";
 import OpeningNotice from "@/components/OpeningNotice";
+import { getOpeningNoticeConfig } from "@/lib/opening-notice";
 
 const baloo = Baloo_2({
   variable: "--font-baloo",
@@ -109,7 +110,7 @@ export default async function LangLayout({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const dict = await getDictionary(lang as Locale);
+  const [dict, openingNotice] = await Promise.all([getDictionary(lang as Locale), getOpeningNoticeConfig()]);
 
   return (
     <html lang={lang} className={`${baloo.variable} ${nunito.variable} h-full antialiased`}>
@@ -133,7 +134,7 @@ export default async function LangLayout({
         </section>
         <Footer locale={lang as Locale} dict={dict} />
         <WhatsAppButton dict={dict} />
-        <OpeningNotice locale={lang as Locale} />
+        <OpeningNotice locale={lang as Locale} text={lang === "it" ? openingNotice.textIt : openingNotice.textEn} backgroundColor={openingNotice.backgroundColor} />
       </body>
     </html>
   );

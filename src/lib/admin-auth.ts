@@ -1,5 +1,6 @@
 import "server-only";
 import { createHmac, timingSafeEqual } from "crypto";
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -116,7 +117,7 @@ export async function clearAdminSession(): Promise<void> {
   store.delete(COOKIE_NAME);
 }
 
-export async function getAdminRole(): Promise<AdminRole | null> {
+export const getAdminRole = cache(async (): Promise<AdminRole | null> => {
   const store = await cookies();
   const token = store.get(COOKIE_NAME)?.value;
   if (!token) return null;
@@ -126,7 +127,7 @@ export async function getAdminRole(): Promise<AdminRole | null> {
   } catch {
     return null;
   }
-}
+});
 
 export async function isAdminAuthenticated(): Promise<boolean> {
   return (await getAdminRole()) !== null;

@@ -13,9 +13,11 @@ import {
   updateGalleryImage,
   deleteGalleryImage,
   updatePartyConfig,
+  updateOpeningNotice,
 } from "./actions";
 import { getPartyConfig } from "@/lib/party-config";
 import PartyChoicesEditor from "@/components/admin/PartyChoicesEditor";
+import { getOpeningNoticeConfig } from "@/lib/opening-notice";
 
 export const metadata: Metadata = {
   title: "Dashboard · Momopolis Admin",
@@ -79,10 +81,11 @@ export default async function AdminDashboardPage({
   }
 
   const { saved } = await searchParams;
-  const [siteImages, galleryImages, partyConfig] = await Promise.all([
+  const [siteImages, galleryImages, partyConfig, openingNotice] = await Promise.all([
     getSiteImages(),
     getGalleryImages(),
     getPartyConfig(),
+    getOpeningNoticeConfig(),
   ]);
 
   const byCategory = (cat: GalleryCategory) =>
@@ -96,6 +99,17 @@ export default async function AdminDashboardPage({
             Modifica salvata.
           </div>
         )}
+
+        <section className="mb-14">
+          <h2 className="font-display text-2xl font-extrabold text-momo-black">Pop-up di apertura</h2>
+          <p className="mt-1 text-sm text-momo-black/60">Modifica il testo mostrato all’ingresso del sito e il colore dello sfondo.</p>
+          <form action={updateOpeningNotice} className="mt-5 grid gap-4 rounded-2xl border border-black/10 bg-white p-5 sm:grid-cols-2">
+            <label className="text-sm font-bold sm:col-span-2">Testo italiano<input name="text_it" required defaultValue={openingNotice.textIt} className="momo-input mt-1" /></label>
+            <label className="text-sm font-bold sm:col-span-2">Testo inglese<input name="text_en" required defaultValue={openingNotice.textEn} className="momo-input mt-1" /></label>
+            <label className="text-sm font-bold">Colore sfondo<input name="background_color" type="color" defaultValue={openingNotice.backgroundColor} className="mt-2 h-12 w-full cursor-pointer rounded-xl border border-black/10 bg-white p-1" /></label>
+            <div className="flex items-end"><button type="submit" className="min-h-11 w-full rounded-full bg-momo-orange px-6 py-3 text-sm font-extrabold sm:w-auto">Salva pop-up</button></div>
+          </form>
+        </section>
 
         <section className="mb-14">
           <h2 className="font-display text-2xl font-extrabold text-momo-black">

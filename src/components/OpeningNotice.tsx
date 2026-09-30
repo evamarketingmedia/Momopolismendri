@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import type { Locale } from "@/lib/dictionaries";
 
-export default function OpeningNotice({ locale }: { locale: Locale }) {
+export default function OpeningNotice({ locale, text, backgroundColor = "#000000" }: { locale: Locale; text?: string; backgroundColor?: string }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export default function OpeningNotice({ locale }: { locale: Locale }) {
   return (
     <aside
       role="status"
+      style={{ backgroundColor }}
       className="fixed left-1/2 top-1/2 z-[100] w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border-2 border-momo-green-neon bg-black px-8 py-9 pr-14 text-center text-white shadow-[0_24px_80px_rgba(0,0,0,.55)] sm:px-12 sm:py-11"
     >
       <button
@@ -27,13 +28,7 @@ export default function OpeningNotice({ locale }: { locale: Locale }) {
       >
         <X size={18} />
       </button>
-      {locale === "it" ? (
-        <p className="font-display text-2xl font-extrabold sm:text-3xl">
-          ✨ Sta arrivando Momòpolis! Apertura ottobre 2026
-        </p>
-      ) : (
-        <><p className="font-display text-2xl font-extrabold sm:text-3xl">✨ Momòpolis is coming!</p><p className="mt-3 text-lg font-bold text-momo-orange sm:text-xl">Opening planned for October 2026</p></>
-      )}
+      <p className="font-display text-2xl font-extrabold sm:text-3xl">{text ?? (locale === "it" ? "✨ Sta arrivando Momòpolis! Apertura ottobre 2026" : "✨ Momòpolis is coming! Opening October 2026")}</p>
     </aside>
   );
 }

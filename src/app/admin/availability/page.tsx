@@ -12,6 +12,7 @@ import {
 } from "./actions";
 import { getPartyConfig } from "@/lib/party-config";
 import { siteConfig } from "@/lib/site-config";
+import { listAllBookings } from "@/lib/bookings-store";
 
 export const metadata: Metadata = {
   title: "Disponibilità · Momopolis Admin",
@@ -26,6 +27,8 @@ function formatDate(value:string) {
   const [year,month,day]=value.split("-");
   return `${day}.${month}.${year}`;
 }
+
+function bookingBlock(message?:string) { if(!message)return null; if(/Quando: Mattina|Reserved block: Morning/i.test(message))return "morning"; if(/Quando: Pomeriggio|Reserved block: Afternoon/i.test(message))return "afternoon"; if(/Quando: Giornata|Reserved block: Full day/i.test(message))return "full_day"; return null; }
 
 export default async function AdminAvailabilityPage({
   searchParams,
@@ -56,7 +59,7 @@ export default async function AdminAvailabilityPage({
   }
 
   const { saved } = await searchParams;
-  const [slots, partyConfig] = await Promise.all([getAllAvailability(), getPartyConfig()]);
+  const [slots, partyConfig, bookings] = await Promise.all([getAllAvailability(), getPartyConfig(), listAllBookings()]);
 
   return (
     <div className="min-h-screen bg-momo-cream pb-24">
@@ -72,8 +75,7 @@ export default async function AdminAvailabilityPage({
             Disponibilità prenotazioni
           </h1>
           <p className="mt-1 text-sm text-momo-black/60">
-            Imposta quanti posti sono disponibili per ogni data (ed eventuale fascia oraria). Il
-            calendario di prenotazione sul sito mostra soltanto le date che aggiungi qui.
+            Ogni data dispone di 100 posti complessivi: 50 al mattino e 50 al pomeriggio. Il calendario mostra soltanto le date che aggiungi qui.
           </p>
           <div className="mt-5 grid gap-2 rounded-2xl bg-momo-green-neon/15 p-4 text-sm sm:grid-cols-2">
             <p><b>Apertura prenotazioni:</b> dal {formatDate(partyConfig.bookingStartDate)}</p>
@@ -106,7 +108,7 @@ export default async function AdminAvailabilityPage({
                 name="capacity"
                 min={1}
                 required
-                defaultValue={20}
+                defaultValue={100}
                 className="momo-input"
               />
             </Field>
@@ -151,7 +153,7 @@ export default async function AdminAvailabilityPage({
                 name="capacity"
                 min={1}
                 required
-                defaultValue={20}
+                defaultValue={100}
                 className="momo-input"
               />
             </Field>
@@ -184,6 +186,9 @@ export default async function AdminAvailabilityPage({
           )}
 
           {slots.map((slot) => {
+            const dayBookings=bookings.filter(item=>item.date===slot.date&&item.status!=="cancelled");
+            const morning=dayBookings.filter(item=>["morning","full_day",null].includes(bookingBlock(item.message))).reduce((sum,item)=>sum+item.participants,0);
+            const afternoon=dayBookings.filter(item=>["afternoon","full_day",null].includes(bookingBlock(item.message))).reduce((sum,item)=>sum+item.participants,0);
             return (
               <details
                 key={slot.id}
@@ -201,7 +206,7 @@ export default async function AdminAvailabilityPage({
                       )}
                     </p>
                     <p className="mt-0.5 text-xs text-momo-black/50">
-                      {slot.capacity} posti totali · {slot.bookedCount} prenotati ·{" "}
+                      {slot.capacity} posti totali (50 mattina + 50 pomeriggio) · {slot.bookedCount} prenotati ·{" "}
                       <span
                         className={
                           slot.remaining <= 0
@@ -215,6 +220,7 @@ export default async function AdminAvailabilityPage({
                         <span className="ml-2 font-bold text-momo-orange">Bloccata</span>
                       )}
                     </p>
+                    <p className="mt-1 text-xs font-bold text-momo-black/60">Mattina: {morning}/50 · Pomeriggio: {afternoon}/50</p>
                   </div>
                   <span className="text-xs font-bold text-momo-black/40 transition-transform group-open:rotate-180">
                     ▾

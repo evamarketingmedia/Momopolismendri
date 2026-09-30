@@ -184,3 +184,16 @@ export async function updatePartyConfig(formData: FormData) {
   revalidatePublicSite();
   redirect("/admin?saved=party");
 }
+
+export async function updateOpeningNotice(formData: FormData) {
+  await requireOwner();
+  if (!isSupabaseConfigured) throw new Error("Supabase not configured");
+  const textIt = String(formData.get("text_it") ?? "").trim();
+  const textEn = String(formData.get("text_en") ?? "").trim();
+  const backgroundColor = String(formData.get("background_color") ?? "#000000").trim();
+  if (!textIt || !textEn || !/^#[0-9a-f]{6}$/i.test(backgroundColor)) throw new Error("Dati popup non validi");
+  const { error } = await supabase!.from("site_images").upsert({ key: "opening_notice_config", url: JSON.stringify({ textIt, textEn, backgroundColor }), updated_at: new Date().toISOString() });
+  if (error) throw error;
+  revalidatePublicSite();
+  redirect("/admin?saved=popup");
+}

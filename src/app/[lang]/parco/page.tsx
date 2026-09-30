@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Baby, Blocks, BookOpen, Castle, CircleDot, Gamepad2, Mountain, Zap } from "lucide-react";
+import { Baby, Blocks, BookOpen, Castle, CircleDot, Gamepad2, Mountain, Zap, Users, Footprints, MapPin } from "lucide-react";
 import { getDictionary, hasLocale, type Locale } from "@/lib/dictionaries";
 import Container from "@/components/Container";
 import PageHero from "@/components/PageHero";
@@ -44,17 +44,6 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
             })}
           </div>
 
-          <div className="mx-auto mt-12 max-w-3xl rounded-[2rem] border border-momo-orange/30 bg-gradient-to-r from-momo-orange/10 to-momo-green-neon/15 p-6 text-center shadow-sm sm:p-8">
-            <h2 className="font-display text-2xl font-extrabold text-momo-black">
-              {isIt ? "Prima di entrare nell’area giochi" : "Before entering the play area"}
-            </h2>
-            <p className="mt-3 text-base font-bold leading-relaxed text-momo-black/75">
-              {isIt
-                ? "Per accedere all’area giochi, i bambini devono indossare obbligatoriamente calze antiscivolo. Gli adulti accompagnatori devono utilizzare gli appositi copriscarpe (disponibili gratuitamente presso il bar)."
-                : "To access the play area, children must wear non-slip socks, while accompanying adults must use the shoe covers available free of charge at the bar."}
-            </p>
-          </div>
-
           <div id="prezzi-orari" className="mt-16 scroll-mt-28 rounded-[2rem] border border-black/10 bg-white p-5 shadow-sm sm:p-9">
             <p className="font-display text-sm font-extrabold uppercase tracking-[.18em] text-momo-orange">{isIt ? "Prezzi ingresso parco" : "Park admission prices"}</p>
             <div className="mt-7 grid gap-7 lg:grid-cols-2">
@@ -65,6 +54,17 @@ export default async function ParkPage({ params }: { params: Promise<{ lang: str
               </div>
             </div>
           </div>
+
+          <section className="mt-12">
+            <h2 className="font-display text-center text-3xl font-extrabold text-momo-black">{isIt ? "Come funziona?" : "How does it work?"}</h2>
+            <div className="mt-7 grid gap-5 md:grid-cols-3">
+              {[
+                { Icon: Users, title: isIt ? "I bambini restano con te" : "Children stay with you", text: isIt ? "I bambini devono rimanere sotto la supervisione di un adulto accompagnatore durante la permanenza nell’area giochi." : "Children must remain under the supervision of an accompanying adult while in the play area." },
+                { Icon: Footprints, title: isIt ? "Calze antiscivolo" : "Non-slip socks", text: isIt ? "I bambini devono indossare calze antiscivolo. Per gli adulti sono disponibili gratuitamente copriscarpe presso il bar." : "Children must wear non-slip socks. Free shoe covers for adults are available at the bar." },
+                { Icon: MapPin, title: isIt ? "Facile da raggiungere" : "Easy to reach", text: isIt ? "A 5 minuti a piedi dalla stazione Mendrisio S. Martino. Posteggi gratuiti presso FoxTown e autosili circostanti gratuiti nel weekend." : "A 5-minute walk from Mendrisio S. Martino station. Free parking at FoxTown and free nearby car parks at weekends." },
+              ].map(({ Icon, title, text }, index) => <article key={title} className="rounded-3xl border border-black/10 bg-white p-6 text-center shadow-sm"><div className={`mx-auto grid h-12 w-12 place-items-center rounded-2xl ${index === 1 ? "bg-momo-orange" : "bg-momo-green-neon"}`}><Icon size={24}/></div><h3 className="font-display mt-4 text-xl font-extrabold">{title}</h3><p className="mt-2 leading-relaxed text-momo-black/70">{text}</p></article>)}
+            </div>
+          </section>
 
           <div className="mx-auto mt-12 max-w-2xl"><OpeningHours locale={lang as Locale} /></div>
         </Container>

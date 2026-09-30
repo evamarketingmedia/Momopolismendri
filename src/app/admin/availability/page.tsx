@@ -29,6 +29,7 @@ function formatDate(value:string) {
 }
 
 function bookingBlock(message?:string) { if(!message)return null; if(/Quando: Mattina|Reserved block: Morning/i.test(message))return "morning"; if(/Quando: Pomeriggio|Reserved block: Afternoon/i.test(message))return "afternoon"; if(/Quando: Giornata|Reserved block: Full day/i.test(message))return "full_day"; return null; }
+function participantDetails(message?:string) { const value=(message||"").match(/(?:Bambini|Children):\s*(\d+)\s*;\s*(?:Adulti|Adults):\s*(\d+)/i); return { children:Number(value?.[1]||0), adults:Number(value?.[2]||0) }; }
 
 export default async function AdminAvailabilityPage({
   searchParams,
@@ -228,6 +229,7 @@ export default async function AdminAvailabilityPage({
                 </summary>
 
                 <div className="space-y-4 border-t border-black/5 px-4 py-4 sm:px-5">
+                  {dayBookings.length>0&&<div className="rounded-2xl bg-momo-green-neon/10 p-4"><p className="text-xs font-extrabold uppercase tracking-wide text-momo-black/50">Prenotazioni della data</p><ul className="mt-2 space-y-2">{dayBookings.map(booking=>{const people=participantDetails(booking.message);return <li key={booking.id} className="flex flex-wrap justify-between gap-2 text-sm"><b>{booking.name}</b><span>{people.children} bambini · {people.adults} adulti</span></li>})}</ul></div>}
                   <div className="flex flex-wrap items-end gap-3">
                     <form action={updateAvailabilityAction} className="grid w-full gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-end">
                       <input type="hidden" name="id" value={slot.id} />
